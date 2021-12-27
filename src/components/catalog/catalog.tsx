@@ -1,10 +1,15 @@
+import { useSelector } from 'react-redux';
 import CatalogFilters from '../catalog-filters/catalog-filters';
 import Card from '../card/card';
-import { guitars } from '../../mocks/mocks';
+import { getGuitarsAndCommentsSelector } from '../../store/selectors';
+import { GuitarAndCommentsType } from '../../types/types';
 
 const NUMBER_OF_CARDS = 9;
 
 function Catalog(): JSX.Element {
+
+  const guitars: GuitarAndCommentsType[] = useSelector(getGuitarsAndCommentsSelector);
+
   return (
     <main className="page-content">
       <div className="container">

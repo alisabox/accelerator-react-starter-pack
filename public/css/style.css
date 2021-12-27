@@ -2236,6 +2236,8 @@ button,
 }
 
 .form-search__select-list {
+  z-index: 1;
+  
   top: 39px;
   left: 0;
   position: absolute;
