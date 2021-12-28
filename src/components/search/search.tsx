@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { DebounceInput } from 'react-debounce-input';
 import { fetchSearchResultAction } from '../../store/api-actions';
 import { getSearchResultSelector } from '../../store/selectors';
 import { GuitarType } from '../../types/types';
@@ -26,13 +27,14 @@ function Search(): JSX.Element {
             <use xlinkHref="#icon-search"></use>
           </svg><span className="visually-hidden">Начать поиск</span>
         </button>
-        <input
+        <DebounceInput
           className="form-search__input"
           id="search"
           type="text"
           autoComplete="off"
           placeholder="что вы ищите?"
           onChange={ handleInput }
+          debounceTimeout={500}
         />
         <label className="visually-hidden" htmlFor="search">Поиск</label>
       </form>
