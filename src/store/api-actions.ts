@@ -2,9 +2,9 @@ import { APIRoute } from '../const/const';
 import { ThunkActionResult, GuitarAndCommentsType, GuitarType } from '../types/types';
 import { getGuitarsAndComments, getSearchResult, clearSearchResult } from './actions';
 
-export const fetchGuitarsAndCommentsAction = (): ThunkActionResult =>
+export const fetchGuitarsAndCommentsAction = (input: string | null = null): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<GuitarAndCommentsType[]>(`${APIRoute.GUITARS}?_embed=comments`);
+    const {data} = await api.get<GuitarAndCommentsType[]>(`${APIRoute.GUITARS}?_embed=comments${input ? `&${input}` : ''}`);
     dispatch(getGuitarsAndComments(data));
   };
 

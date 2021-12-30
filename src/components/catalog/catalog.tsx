@@ -1,10 +1,12 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CatalogFilters from '../catalog-filters/catalog-filters';
 import Card from '../card/card';
 import { getGuitarsAndCommentsSelector } from '../../store/selectors';
 import { GuitarAndCommentsType } from '../../types/types';
 import { useEffect, useState } from 'react';
 import { CatalogSort, CatalogSortOrder, sortGuitars } from '../../const/const';
+import { useHistory, useLocation } from 'react-router-dom';
+import { fetchGuitarsAndCommentsAction } from '../../store/api-actions';
 
 const NUMBER_OF_CARDS = 9;
 
@@ -23,6 +25,17 @@ function Catalog(): JSX.Element {
       setSortedGuitars(guitars);
     }
   }, [catalogSort, catalogSortOrder, guitars]);
+
+  const { search } = useLocation();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  useEffect(
+    () => {
+      history.push(search);
+      dispatch(fetchGuitarsAndCommentsAction(search.substring(1)));
+    },
+    [search],
+  );
 
   return (
     <main className="page-content">

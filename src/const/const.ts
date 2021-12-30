@@ -5,12 +5,18 @@ export const APIRoute = {
   COMMENTS: '/comments',
   COUPONS: '/coupons',
   ORDERS: '/orders',
-};
+} as const;
+
+export const AppRoute = {
+  ROOT: '/',
+  CATALOG: 'catalog',
+} as const;
 
 export enum ActionType {
   GetGuitarsAndComments = 'MAIN/GET_GUITARS_AND_COMMENTS',
   GetSearchResult = 'MAIN/GET_SEARCH_RESULT',
   ClearSearchResult = 'MAIN/CLEAR_SEARCH_RESULT',
+  GetFilterResult = 'MAIN/GET_FILTER_RESULT',
 }
 
 export enum CatalogSort {
@@ -34,3 +40,20 @@ export const sortGuitars = (guitars: GuitarAndCommentsType[], sortMode: CatalogS
   }
   return guitars.slice().sort((a, b) => b[key] - a[key]);
 };
+
+export const SeachOperators = {
+  MinPrice: 'price_gte=',
+  MaxPrice: 'price_lte=',
+  TypeAcoustic: 'type=acoustic',
+  TypeElectric: 'type=electric',
+  TypeUkulele: 'type=ukulele',
+  FourStrings: 'stringCount=4',
+  SixStrings: 'stringCount=6',
+  SevenStrings: 'stringCount=7',
+  TwelveStrings: 'stringCount=12',
+} as const;
+
+export enum Price {
+  From = 'From',
+  To = 'To',
+}

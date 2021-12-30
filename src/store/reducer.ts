@@ -15,7 +15,7 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(getSearchResult, (state, action) => {
       state.searchResult = action.payload.searchResult;
     })
-    .addCase(clearSearchResult, (state, action) => {
+    .addCase(clearSearchResult, (state) => {
       state.searchResult = initialState.searchResult;
     });
 });

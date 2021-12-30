@@ -26,6 +26,12 @@ export type CommentType = {
   guitarId: number;
 }
 
+export type FilterSettingsType = {
+  minPrice: number;
+  maxPrice: number;
+  stringCount: number[];
+}
+
 export type GuitarAndCommentsType = GuitarType & {
   comments: CommentType[],
 }
@@ -37,3 +43,4 @@ export type initialStateType = {
 
 export type State = RootState;
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;
+export type ReselectType<S> = (state: State) => S;

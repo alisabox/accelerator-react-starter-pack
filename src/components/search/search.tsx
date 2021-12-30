@@ -1,6 +1,6 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { DebounceInput } from 'react-debounce-input';
+import { useDebounce } from '../../hooks/useDebounce';
 import { fetchSearchResultAction } from '../../store/api-actions';
 import { getSearchResultSelector } from '../../store/selectors';
 import { GuitarType } from '../../types/types';
@@ -11,13 +11,23 @@ function Search(): JSX.Element {
 
   const dispatch = useDispatch();
 
+  const [searchedName, setSearchedName] = useState<string>('');
+  const debouncedSearchName: string = useDebounce<string>(searchedName, 500);
+
   const handleInput = (evt: ChangeEvent<HTMLInputElement>): void => {
-    if (evt.target.value === '') {
-      dispatch(fetchSearchResultAction(null));
-    } else {
-      dispatch(fetchSearchResultAction(evt.target.value));
-    }
+    setSearchedName(evt.target.value);
   };
+
+  useEffect(
+    () => {
+      if (debouncedSearchName === '') {
+        dispatch(fetchSearchResultAction(null));
+      } else {
+        dispatch(fetchSearchResultAction(debouncedSearchName));
+      }
+    },
+    [debouncedSearchName],
+  );
 
   return (
     <div className="form-search">
@@ -27,14 +37,13 @@ function Search(): JSX.Element {
             <use xlinkHref="#icon-search"></use>
           </svg><span className="visually-hidden">Начать поиск</span>
         </button>
-        <DebounceInput
+        <input
           className="form-search__input"
           id="search"
           type="text"
           autoComplete="off"
           placeholder="что вы ищите?"
           onChange={ handleInput }
-          debounceTimeout={500}
         />
         <label className="visually-hidden" htmlFor="search">Поиск</label>
       </form>

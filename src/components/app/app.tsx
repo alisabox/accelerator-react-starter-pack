@@ -1,8 +1,20 @@
+import { Route, Switch } from 'react-router-dom';
+import { AppRoute } from '../../const/const';
 import Main from '../main/main';
 
 function App(): JSX.Element {
   return (
-    <Main />
+    <Switch>
+      <Route path={AppRoute.ROOT} exact>
+        <Main />
+      </Route>
+      <Route path={`${AppRoute.ROOT}?:filter`}>
+        <Main />
+      </Route>
+      <Route >
+        <div>404</div>
+      </Route>
+    </Switch>
   );
 }
 
