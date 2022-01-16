@@ -1,6 +1,6 @@
-import { GuitarType } from '../types/types';
+import { GuitarAndCommentsType } from '../types/types';
 
-export const guitars: GuitarType[] = [
+export const guitars: GuitarAndCommentsType[] = [
   {
     id: 1,
     name: 'Честер Bass',
@@ -11,6 +11,7 @@ export const guitars: GuitarType[] = [
     stringCount: 7,
     rating: 4,
     price: 17500,
+    comments: [],
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ export const guitars: GuitarType[] = [
     stringCount: 7,
     rating: 3.5,
     price: 29500,
+    comments: [],
   },
   {
     id: 3,
@@ -33,6 +35,7 @@ export const guitars: GuitarType[] = [
     stringCount: 4,
     rating: 4,
     price: 6800,
+    comments: [],
   },
   {
     id: 4,
@@ -44,6 +47,7 @@ export const guitars: GuitarType[] = [
     stringCount: 6,
     rating: 5,
     price: 30000,
+    comments: [],
   },
   {
     id: 5,
@@ -55,6 +59,7 @@ export const guitars: GuitarType[] = [
     stringCount: 7,
     rating: 4.5,
     price: 3500,
+    comments: [],
   },
   {
     id: 6,
@@ -66,6 +71,7 @@ export const guitars: GuitarType[] = [
     stringCount: 6,
     rating: 3.5,
     price: 15300,
+    comments: [],
   },
   {
     id: 7,
@@ -77,6 +83,7 @@ export const guitars: GuitarType[] = [
     stringCount: 4,
     rating: 2.5,
     price: 2200,
+    comments: [],
   },
   {
     id: 8,
@@ -88,6 +95,7 @@ export const guitars: GuitarType[] = [
     stringCount: 4,
     rating: 4.5,
     price: 30000,
+    comments: [],
   },
   {
     id: 9,
@@ -99,6 +107,7 @@ export const guitars: GuitarType[] = [
     stringCount: 7,
     rating: 3,
     price: 1700,
+    comments: [],
   },
   {
     id: 10,
@@ -110,6 +119,7 @@ export const guitars: GuitarType[] = [
     stringCount: 4,
     rating: 4,
     price: 23000,
+    comments: [],
   },
   {
     id: 11,
@@ -121,6 +131,7 @@ export const guitars: GuitarType[] = [
     stringCount: 4,
     rating: 3.5,
     price: 18700,
+    comments: [],
   },
   {
     id: 12,
@@ -132,6 +143,7 @@ export const guitars: GuitarType[] = [
     stringCount: 7,
     rating: 4,
     price: 35000,
+    comments: [],
   },
   {
     id: 13,
@@ -143,6 +155,7 @@ export const guitars: GuitarType[] = [
     stringCount: 6,
     rating: 4.5,
     price: 14900,
+    comments: [],
   },
   {
     id: 14,
@@ -154,6 +167,7 @@ export const guitars: GuitarType[] = [
     stringCount: 6,
     rating: 4.5,
     price: 14900,
+    comments: [],
   },
   {
     id: 15,
@@ -165,6 +179,7 @@ export const guitars: GuitarType[] = [
     stringCount: 6,
     rating: 3.5,
     price: 6500,
+    comments: [],
   },
   {
     id: 16,
@@ -176,6 +191,7 @@ export const guitars: GuitarType[] = [
     stringCount: 7,
     rating: 2.5,
     price: 12000,
+    comments: [],
   },
   {
     id: 17,
@@ -187,6 +203,7 @@ export const guitars: GuitarType[] = [
     stringCount: 7,
     rating: 3.5,
     price: 9900,
+    comments: [],
   },
   {
     id: 18,
@@ -198,6 +215,7 @@ export const guitars: GuitarType[] = [
     stringCount: 12,
     rating: 4.5,
     price: 8900,
+    comments: [],
   },
   {
     id: 19,
@@ -209,6 +227,7 @@ export const guitars: GuitarType[] = [
     stringCount: 12,
     rating: 4,
     price: 10500,
+    comments: [],
   },
   {
     id: 20,
@@ -220,6 +239,7 @@ export const guitars: GuitarType[] = [
     stringCount: 6,
     rating: 5,
     price: 13300,
+    comments: [],
   },
   {
     id: 21,
@@ -231,6 +251,7 @@ export const guitars: GuitarType[] = [
     stringCount: 4,
     rating: 1.5,
     price: 4800,
+    comments: [],
   },
   {
     id: 22,
@@ -242,6 +263,7 @@ export const guitars: GuitarType[] = [
     stringCount: 4,
     rating: 4.5,
     price: 1900,
+    comments: [],
   },
   {
     id: 23,
@@ -253,6 +275,7 @@ export const guitars: GuitarType[] = [
     stringCount: 4,
     rating: 3.5,
     price: 2500,
+    comments: [],
   },
   {
     id: 24,
@@ -264,6 +287,7 @@ export const guitars: GuitarType[] = [
     stringCount: 4,
     rating: 2,
     price: 3800,
+    comments: [],
   },
   {
     id: 25,
@@ -275,6 +299,7 @@ export const guitars: GuitarType[] = [
     stringCount: 4,
     rating: 2.5,
     price: 4100,
+    comments: [],
   },
   {
     id: 26,
@@ -286,6 +311,7 @@ export const guitars: GuitarType[] = [
     stringCount: 4,
     rating: 3.5,
     price: 2700,
+    comments: [],
   },
   {
     id: 27,
@@ -297,5 +323,6 @@ export const guitars: GuitarType[] = [
     stringCount: 2.5,
     rating: 4,
     price: 6700,
+    comments: [],
   },
 ];

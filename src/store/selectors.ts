@@ -2,17 +2,16 @@ import { State, GuitarAndCommentsType, GuitarType, ReselectType, FilterSettingsT
 import { createSelector } from 'reselect';
 
 export const getGuitarsAndCommentsSelector = (state: State): GuitarAndCommentsType[] => state.guitarsAndComments;
+export const getGuitarsPerPageSelector = (state: State): GuitarAndCommentsType[] => state.guitarsPerPage;
 export const getSearchResultSelector = (state: State): GuitarType[] => state.searchResult;
 
-export const getFilterSettings = (): ReselectType<FilterSettingsType | undefined> => createSelector(getGuitarsAndCommentsSelector, (guitars) => {
-  if (guitars.length === 0) {
-    return;
+export const getPriceFilterSettings = (): ReselectType<FilterSettingsType | undefined> => createSelector(getGuitarsAndCommentsSelector, (guitars) => {
+  if (guitars.length) {
+    const guitarsSortedByPrice = guitars.slice().sort((a, b) => a.price - b.price);
+    return {
+      minPrice: guitarsSortedByPrice[0].price,
+      maxPrice: guitarsSortedByPrice[guitarsSortedByPrice.length - 1].price,
+    };
   }
-  const guitarsSortedByPrice = guitars.slice().sort((a, b) => a.price - b.price);
-  const stringCount = [...new Set(guitars.map((guitar) => guitar.stringCount))];
-  return {
-    minPrice: guitarsSortedByPrice[0].price,
-    maxPrice: guitarsSortedByPrice[guitarsSortedByPrice.length - 1].price,
-    stringCount,
-  };
 });
+

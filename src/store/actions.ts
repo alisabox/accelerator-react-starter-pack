@@ -11,6 +11,15 @@ export const getGuitarsAndComments = createAction(
   }),
 );
 
+export const getGuitarsPerPage = createAction(
+  ActionType.GetGuitarsPerPage,
+  (guitarsPerPage: GuitarAndCommentsType[]) => ({
+    payload: {
+      guitarsPerPage,
+    },
+  }),
+);
+
 export const getSearchResult = createAction(
   ActionType.GetSearchResult,
   (searchResult: GuitarType[]) => ({

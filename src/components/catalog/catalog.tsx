@@ -1,40 +1,59 @@
 import { useDispatch, useSelector } from 'react-redux';
 import CatalogFilters from '../catalog-filters/catalog-filters';
 import Card from '../card/card';
-import { getGuitarsAndCommentsSelector } from '../../store/selectors';
+import Pagination from '../pagination/pagination';
+import { getGuitarsPerPageSelector } from '../../store/selectors';
 import { GuitarAndCommentsType } from '../../types/types';
 import { useEffect, useState } from 'react';
-import { CatalogSort, CatalogSortOrder, sortGuitars } from '../../const/const';
+import { CatalogSort, CatalogSortOperators, CatalogSortOrder } from '../../const/const';
 import { useHistory, useLocation } from 'react-router-dom';
-import { fetchGuitarsAndCommentsAction } from '../../store/api-actions';
+import { fetchGuitarsAndCommentsAction, fetchGuitarsPerPage } from '../../store/api-actions';
 
 const NUMBER_OF_CARDS = 9;
 
 function Catalog(): JSX.Element {
 
-  const guitars: GuitarAndCommentsType[] = useSelector(getGuitarsAndCommentsSelector);
+  const { search } = useLocation();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const guitars: GuitarAndCommentsType[] = useSelector(getGuitarsPerPageSelector);
 
-  const [sortedGuitars, setSortedGuitars] = useState<GuitarAndCommentsType[]>(guitars);
   const [catalogSort, setCatalogSort] = useState<CatalogSort>(CatalogSort.None);
   const [catalogSortOrder, setCatalogSortOrder] = useState<CatalogSortOrder>(CatalogSortOrder.None);
 
   useEffect(() => {
     if (catalogSort !== CatalogSort.None || catalogSortOrder !== CatalogSortOrder.None) {
-      setSortedGuitars(sortGuitars(guitars, catalogSort, catalogSortOrder));
-    } else {
-      setSortedGuitars(guitars);
-    }
-  }, [catalogSort, catalogSortOrder, guitars]);
+      let sort = '';
+      if (CatalogSortOperators[catalogSort] && CatalogSortOperators[catalogSortOrder]) {
+        sort = `${CatalogSortOperators[catalogSort]}&${CatalogSortOperators[catalogSortOrder]}`;
+      } else {
+        sort = CatalogSortOperators[catalogSort] || CatalogSortOperators[catalogSortOrder];
+      }
 
-  const { search } = useLocation();
-  const history = useHistory();
-  const dispatch = useDispatch();
+      if (search) {
+        const nonPageFilters = search?.substring(1).split('&').filter((item) => item.split('=')[0] !== 'page' && item.split('=')[0] !== '_sort' && item.split('=')[0] !== '_order').join('&');
+        const pageFilter = search?.substring(1).split('&').filter((item) => item.split('=')[0] === 'page').join();
+        history.push(`?${nonPageFilters ? `${nonPageFilters}&` : ''}${sort}&${pageFilter ? `${pageFilter}` : ''}`);
+      } else {
+        history.push(`?${sort}`);
+      }
+    }
+  }, [catalogSort, catalogSortOrder]);
+
   useEffect(
     () => {
-      history.push(search);
-      dispatch(fetchGuitarsAndCommentsAction(search.substring(1)));
+      const nonPageFilters = search?.substring(1).split('&').filter((item) => item.split('=')[0] !== 'page').join('&');
+      const currentPage = parseInt(search?.substring(1).split('&').filter((item) => item.split('=')[0] === 'page').join().split('=')[1], 10);
+      const pageFilter = `${currentPage > 1 ? `_start=${(currentPage - 1) * NUMBER_OF_CARDS + 1}&_limit=9` : '_start=1&_limit=9'}`;
+      if (nonPageFilters) {
+        dispatch(fetchGuitarsAndCommentsAction(nonPageFilters));
+        dispatch(fetchGuitarsPerPage(`${nonPageFilters}&${pageFilter}`));
+      } else {
+        dispatch(fetchGuitarsAndCommentsAction());
+        dispatch(fetchGuitarsPerPage(pageFilter));
+      }
     },
-    [search],
+    [search, catalogSort],
   );
 
   return (
@@ -92,24 +111,13 @@ function Catalog(): JSX.Element {
           <div className="cards catalog__cards">
 
             {
-              sortedGuitars.length > 0
-                ? sortedGuitars.slice(0, NUMBER_OF_CARDS).map((guitar) => <Card key={ guitar.id } guitar={ guitar }/>)
+              guitars.length > 0
+                ? guitars.slice(0, NUMBER_OF_CARDS).map((guitar) => <Card key={ guitar.id } guitar={ guitar }/>)
                 : 'Загружаем...'
             }
 
           </div>
-          <div className="pagination page-content__pagination">
-            <ul className="pagination__list">
-              <li className="pagination__page pagination__page--active"><a className="link pagination__page-link" href="1">1</a>
-              </li>
-              <li className="pagination__page"><a className="link pagination__page-link" href="2">2</a>
-              </li>
-              <li className="pagination__page"><a className="link pagination__page-link" href="3">3</a>
-              </li>
-              <li className="pagination__page pagination__page--next" id="next"><a className="link pagination__page-link" href="2">Далее</a>
-              </li>
-            </ul>
-          </div>
+          <Pagination />
         </div>
       </div>
     </main>

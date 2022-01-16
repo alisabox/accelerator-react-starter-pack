@@ -12,7 +12,7 @@ function App(): JSX.Element {
         <Main />
       </Route>
       <Route >
-        <div>404</div>
+        <div>404 Not Found</div>
       </Route>
     </Switch>
   );

@@ -29,7 +29,6 @@ export type CommentType = {
 export type FilterSettingsType = {
   minPrice: number;
   maxPrice: number;
-  stringCount: number[];
 }
 
 export type GuitarAndCommentsType = GuitarType & {
@@ -38,7 +37,16 @@ export type GuitarAndCommentsType = GuitarType & {
 
 export type initialStateType = {
   guitarsAndComments: GuitarAndCommentsType[],
+  guitarsPerPage: GuitarAndCommentsType[],
   searchResult: GuitarType[],
+}
+
+export type SeachOperatorsBiasedType = {
+  [key: string]: string;
+}
+
+export type SortOperatorsType = {
+  [key: string]: string;
 }
 
 export type State = RootState;

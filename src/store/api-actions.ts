@@ -1,6 +1,6 @@
 import { APIRoute } from '../const/const';
 import { ThunkActionResult, GuitarAndCommentsType, GuitarType } from '../types/types';
-import { getGuitarsAndComments, getSearchResult, clearSearchResult } from './actions';
+import { getGuitarsAndComments, getSearchResult, clearSearchResult, getGuitarsPerPage } from './actions';
 
 export const fetchGuitarsAndCommentsAction = (input: string | null = null): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -18,3 +18,8 @@ export const fetchSearchResultAction = (input: string | null): ThunkActionResult
     }
   };
 
+export const fetchGuitarsPerPage = (input: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<GuitarAndCommentsType[]>(`${APIRoute.GUITARS}?_embed=comments&${input}`);
+    dispatch(getGuitarsPerPage(data));
+  };
