@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { GuitarAndCommentsType, GuitarType } from '../types/types';
+import { GuitarAndCommentsType, GuitarType, SeachOptionsType } from '../types/types';
 import { ActionType } from '../const/const';
 
 export const getGuitarsAndComments = createAction(
@@ -30,3 +30,12 @@ export const getSearchResult = createAction(
 );
 
 export const clearSearchResult = createAction(ActionType.ClearSearchResult);
+
+export const getFilterURLOptions = createAction(
+  ActionType.GetFilterURLOptions,
+  (filterURLOptions: SeachOptionsType) => ({
+    payload: {
+      filterURLOptions,
+    },
+  }),
+);

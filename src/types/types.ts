@@ -2,6 +2,7 @@ import { Action } from 'redux';
 import { ThunkAction}  from 'redux-thunk';
 import { AxiosInstance } from 'axios';
 import { RootState } from '../store/reducer';
+import { SeachOptions } from '../const/const';
 
 export type GuitarType = {
   id: number;
@@ -39,6 +40,7 @@ export type initialStateType = {
   guitarsAndComments: GuitarAndCommentsType[],
   guitarsPerPage: GuitarAndCommentsType[],
   searchResult: GuitarType[],
+  filterURLOptions: SeachOptionsType,
 }
 
 export type SeachOperatorsBiasedType = {
@@ -47,6 +49,27 @@ export type SeachOperatorsBiasedType = {
 
 export type SortOperatorsType = {
   [key: string]: string;
+}
+
+
+export type FilterParamsType = {
+  filters: string,
+  sort: string,
+  order: string,
+  pageSearch: string,
+  page: string,
+}
+
+export type SeachOptionsType = {
+  [SeachOptions.PRICE_MIN]: string,
+  [SeachOptions.PRICE_MAX]: string,
+  [SeachOptions.ACOUSTIC]: boolean,
+  [SeachOptions.ELECTRIC]: boolean,
+  [SeachOptions.UKULELE]: boolean,
+  [SeachOptions.FOUR_STRINGS]: boolean,
+  [SeachOptions.SIX_STRINGS]: boolean,
+  [SeachOptions.SEVEN_STRINGS]: boolean,
+  [SeachOptions.TWELVE_STRINGS]: boolean,
 }
 
 export type State = RootState;

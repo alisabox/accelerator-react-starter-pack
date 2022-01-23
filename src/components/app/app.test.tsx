@@ -7,7 +7,7 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { AppRoute } from '../../const/const';
+import { AppRoute, SeachOptions } from '../../const/const';
 import App from './app';
 
 
@@ -26,6 +26,17 @@ describe('Application Routing', () => {
       guitarsAndComments: [],
       guitarsPerPage: [],
       searchResult: [],
+      filterURLOptions: {
+        [SeachOptions.PRICE_MIN]: '',
+        [SeachOptions.PRICE_MAX]: '',
+        [SeachOptions.ACOUSTIC]: false,
+        [SeachOptions.ELECTRIC]: false,
+        [SeachOptions.UKULELE]: false,
+        [SeachOptions.FOUR_STRINGS]: false,
+        [SeachOptions.SIX_STRINGS]: false,
+        [SeachOptions.SEVEN_STRINGS]: false,
+        [SeachOptions.TWELVE_STRINGS]: false,
+      },
     });
 
     const fakeApp = (
@@ -38,7 +49,7 @@ describe('Application Routing', () => {
     history.push(AppRoute.ROOT);
     render(fakeApp);
 
-    expect(screen.queryByText(/Загружаем.../i)).toBeInTheDocument();
+    expect(screen.getByText(/Загружаем.../i)).toBeInTheDocument();
   });
 
   it('should render "Screen404" when user navigate to non-existent route', () => {
@@ -46,6 +57,17 @@ describe('Application Routing', () => {
       guitarsAndComments: [],
       guitarsPerPage: [],
       searchResult: [],
+      filterURLOptions: {
+        [SeachOptions.PRICE_MIN]: '',
+        [SeachOptions.PRICE_MAX]: '',
+        [SeachOptions.ACOUSTIC]: false,
+        [SeachOptions.ELECTRIC]: false,
+        [SeachOptions.UKULELE]: false,
+        [SeachOptions.FOUR_STRINGS]: false,
+        [SeachOptions.SIX_STRINGS]: false,
+        [SeachOptions.SEVEN_STRINGS]: false,
+        [SeachOptions.TWELVE_STRINGS]: false,
+      },
     });
     history.push('/non-existent-route');
     const fakeApp = (

@@ -40,4 +40,4 @@ describe('Component: Search', () => {
 
     expect(screen.getByPlaceholderText('что вы ищите?')).toBeInTheDocument();
   });
-});  
+});

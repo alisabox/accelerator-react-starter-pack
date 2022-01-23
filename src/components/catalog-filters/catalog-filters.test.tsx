@@ -9,6 +9,7 @@ import CatalogFilters from './catalog-filters';
 import { guitars } from '../../mocks/mocks';
 import { createAPI } from '../../services/api';
 import { State } from '../../types/types';
+import { SeachOptions } from '../../const/const';
 
 const history = createMemoryHistory();
 
@@ -28,10 +29,20 @@ describe('Component: CatalogFilters', () => {
       guitarsAndComments: mockData,
       guitarsPerPage: mockData.slice(0, 10),
       searchResult: [],
+      filterURLOptions: {
+        [SeachOptions.PRICE_MIN]: '',
+        [SeachOptions.PRICE_MAX]: '',
+        [SeachOptions.ACOUSTIC]: false,
+        [SeachOptions.ELECTRIC]: false,
+        [SeachOptions.UKULELE]: false,
+        [SeachOptions.FOUR_STRINGS]: false,
+        [SeachOptions.SIX_STRINGS]: false,
+        [SeachOptions.SEVEN_STRINGS]: false,
+        [SeachOptions.TWELVE_STRINGS]: false,
+      },
     });
 
     const guitarsSortedByPrice = mockData.slice().sort((a, b) => a.price - b.price);
-    
     render (
       <Provider store={store}>
         <Router history={history}>
@@ -50,4 +61,4 @@ describe('Component: CatalogFilters', () => {
     expect(screen.getByPlaceholderText(guitarsSortedByPrice[0].price.toString())).toBeInTheDocument();
     expect(screen.getByPlaceholderText(guitarsSortedByPrice.reverse()[0].price.toString())).toBeInTheDocument();
   });
-});  
+});

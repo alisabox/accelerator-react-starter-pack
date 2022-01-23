@@ -1,17 +1,19 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
 import { useDebounce } from '../../hooks/useDebounce';
-import { getPriceFilterSettings } from '../../store/selectors';
+import { getFilterUrlOptionsSelector, getPriceFilterSettings } from '../../store/selectors';
 import { SeachOperatorsBiased, SeachOptions } from '../../const/const';
-import { FilterSettingsType } from '../../types/types';
-
+import { FilterSettingsType, SeachOptionsType } from '../../types/types';
+import { useHistory, useLocation } from 'react-router-dom';
+import { formSearchRequest, getFilterParams } from '../../utils/utils';
 
 function CatalogFilters(): JSX.Element {
 
-  const filterSettings: FilterSettingsType | undefined = useSelector(getPriceFilterSettings());
+  const priceRangeSettings: FilterSettingsType | undefined = useSelector(getPriceFilterSettings());
 
   const history = useHistory();
+  const { search } = useLocation();
+  const filterURLOptions: SeachOptionsType = useSelector(getFilterUrlOptionsSelector);
 
   const [searchRequest, setSearchRequest] = useState<string>('');
   const debouncedSearchRequest: string = useDebounce<string>(searchRequest, 1000);
@@ -26,17 +28,7 @@ function CatalogFilters(): JSX.Element {
     [SeachOptions.TWELVE_STRINGS]: false,
   });
 
-  const [formState, setFormState] = useState({
-    [SeachOptions.PRICE_MIN]: '',
-    [SeachOptions.PRICE_MAX]: '',
-    [SeachOptions.ACOUSTIC]: false,
-    [SeachOptions.ELECTRIC]: false,
-    [SeachOptions.UKULELE]: false,
-    [SeachOptions.FOUR_STRINGS]: false,
-    [SeachOptions.SIX_STRINGS]: false,
-    [SeachOptions.SEVEN_STRINGS]: false,
-    [SeachOptions.TWELVE_STRINGS]: false,
-  });
+  const [formState, setFormState] = useState<SeachOptionsType>(filterURLOptions);
 
   const handlePriceChange = (evt: ChangeEvent<HTMLInputElement>): void => {
     if(evt.target.name === SeachOptions.PRICE_MIN) {
@@ -67,11 +59,11 @@ function CatalogFilters(): JSX.Element {
   const handleFormChange = (evt: ChangeEvent<HTMLInputElement>): void => {
     if(evt.target.name === SeachOptions.PRICE_MIN) {
       let minValue = evt.target.value;
-      if (filterSettings?.minPrice && parseInt(minValue, 10) < filterSettings.minPrice) {
-        minValue = filterSettings.minPrice.toString();
+      if (priceRangeSettings?.minPrice && parseInt(minValue, 10) < priceRangeSettings.minPrice) {
+        minValue = priceRangeSettings.minPrice.toString();
       }
-      if (filterSettings?.maxPrice && parseInt(minValue, 10) > filterSettings.maxPrice) {
-        minValue = filterSettings.maxPrice.toString();
+      if (priceRangeSettings?.maxPrice && parseInt(minValue, 10) > priceRangeSettings.maxPrice) {
+        minValue = priceRangeSettings.maxPrice.toString();
       }
       if (parseInt(minValue, 10) > parseInt(maxPrice, 10)) {
         minValue = maxPrice;
@@ -80,11 +72,11 @@ function CatalogFilters(): JSX.Element {
       setFormState({...formState, [SeachOptions.PRICE_MIN]: minValue});
     } else if (evt.target.name === SeachOptions.PRICE_MAX) {
       let maxValue = evt.target.value;
-      if (filterSettings?.maxPrice && parseInt(maxValue, 10) > filterSettings.maxPrice) {
-        maxValue = filterSettings.maxPrice.toString();
+      if (priceRangeSettings?.maxPrice && parseInt(maxValue, 10) > priceRangeSettings.maxPrice) {
+        maxValue = priceRangeSettings.maxPrice.toString();
       }
-      if (filterSettings?.minPrice && parseInt(maxValue, 10) < filterSettings.minPrice) {
-        maxValue = filterSettings.minPrice.toString();
+      if (priceRangeSettings?.minPrice && parseInt(maxValue, 10) < priceRangeSettings.minPrice) {
+        maxValue = priceRangeSettings.minPrice.toString();
       }
       if (parseInt(maxValue, 10) < parseInt(minPrice, 10)) {
         maxValue = minPrice;
@@ -100,69 +92,40 @@ function CatalogFilters(): JSX.Element {
     }
   };
 
+  useEffect(() => {
+    setDisabledStringCount({
+      [SeachOptions.FOUR_STRINGS]: formState[SeachOptions.ACOUSTIC] && !formState[SeachOptions.ELECTRIC] && !formState[SeachOptions.UKULELE],
+      [SeachOptions.SIX_STRINGS]: formState[SeachOptions.UKULELE] && !formState[SeachOptions.ELECTRIC] && !formState[SeachOptions.ACOUSTIC],
+      [SeachOptions.SEVEN_STRINGS]: formState[SeachOptions.UKULELE] && !formState[SeachOptions.ELECTRIC] && !formState[SeachOptions.ACOUSTIC],
+      [SeachOptions.TWELVE_STRINGS]: (formState[SeachOptions.UKULELE] || formState[SeachOptions.ELECTRIC]) && !formState[SeachOptions.ACOUSTIC],
+    });
+  }, [formState]);
+
   useEffect(
     () => {
       const validSearchRequest = Object.entries(formState).filter((item) => item[1]).map((item) => item[0]);
-      if (validSearchRequest.length) {
-        setSearchRequest(validSearchRequest.map((item) => {
-          if (item === SeachOptions.PRICE_MIN) {
-            return SeachOperatorsBiased[item] + formState[SeachOptions.PRICE_MIN];
-          } else if (item === SeachOptions.PRICE_MAX) {
-            return SeachOperatorsBiased[item] + formState[SeachOptions.PRICE_MAX];
-          } else {
-            return SeachOperatorsBiased[item];
-          }
-        }).join('&'));
-      }
-      setDisabledStringCount({
-        [SeachOptions.FOUR_STRINGS]: formState[SeachOptions.ACOUSTIC] && !formState[SeachOptions.ELECTRIC] && !formState[SeachOptions.UKULELE],
-        [SeachOptions.SIX_STRINGS]: formState[SeachOptions.UKULELE] && !formState[SeachOptions.ELECTRIC] && !formState[SeachOptions.ACOUSTIC],
-        [SeachOptions.SEVEN_STRINGS]: formState[SeachOptions.UKULELE] && !formState[SeachOptions.ELECTRIC] && !formState[SeachOptions.ACOUSTIC],
-        [SeachOptions.TWELVE_STRINGS]: (formState[SeachOptions.UKULELE] || formState[SeachOptions.ELECTRIC]) && !formState[SeachOptions.ACOUSTIC],
-      });
-      return () => setSearchRequest('');
-    },
-    [formState],
-  );
-
-  const { search } = useLocation();
-  const pageSortOptions = search?.substring(1).split('&').filter((item) => item.split('=')[0] === 'sort').join('&');
-  const pageFilters = search.substring(1).split('&').filter((item) => item.split('=')[0] === 'page').join();
+      setSearchRequest(validSearchRequest.map((item) => {
+        if (item === SeachOptions.PRICE_MIN) {
+          return SeachOperatorsBiased[item] + formState[SeachOptions.PRICE_MIN];
+        } else if (item === SeachOptions.PRICE_MAX) {
+          return SeachOperatorsBiased[item] + formState[SeachOptions.PRICE_MAX];
+        } else {
+          return SeachOperatorsBiased[item];
+        }
+      }).join('&'));
+    }, [formState]);
 
   useEffect(
     () => {
-      if (debouncedSearchRequest) {
-        history.push(`?${pageSortOptions ? `${pageSortOptions}&` : ''}${debouncedSearchRequest}${pageFilters ? `&${pageFilters}` : ''}`);
-      } else if (pageFilters || pageSortOptions){
-        history.push(`?${pageSortOptions ? `${pageSortOptions}&` : ''}${pageFilters ? `${pageFilters}` : ''}`);
-      } else {
-        history.push('');
-      }
-    },
-    [debouncedSearchRequest],
-  );
+      const filterParams = getFilterParams(search);
+      const searchUrlRequest = formSearchRequest([debouncedSearchRequest, filterParams.sort, filterParams.order, filterParams.page]);
+      history.push(`?${searchUrlRequest}`);
+    }, [debouncedSearchRequest, history, search]);
 
-  useEffect(
-    () => {
-      if (search) {
-        const searchList = search.substring(1).split('&');
-        const minSearchedPrice = searchList.find((item) => item.indexOf(SeachOperatorsBiased[SeachOptions.PRICE_MIN]) >= 0)?.substring(10) || '';
-        const maxSearchedPrice = searchList.find((item) => item.indexOf(SeachOperatorsBiased[SeachOptions.PRICE_MAX]) >= 0)?.substring(10) || '';
-        setFormState({
-          [SeachOptions.PRICE_MIN]: minSearchedPrice,
-          [SeachOptions.PRICE_MAX]: maxSearchedPrice,
-          [SeachOptions.ACOUSTIC]: searchList.includes(SeachOperatorsBiased[SeachOptions.ACOUSTIC]),
-          [SeachOptions.ELECTRIC]: searchList.includes(SeachOperatorsBiased[SeachOptions.ELECTRIC]),
-          [SeachOptions.UKULELE]: searchList.includes(SeachOperatorsBiased[SeachOptions.UKULELE]),
-          [SeachOptions.FOUR_STRINGS]: searchList.includes(SeachOperatorsBiased[SeachOptions.FOUR_STRINGS]),
-          [SeachOptions.SIX_STRINGS]: searchList.includes(SeachOperatorsBiased[SeachOptions.SIX_STRINGS]),
-          [SeachOptions.SEVEN_STRINGS]: searchList.includes(SeachOperatorsBiased[SeachOptions.SEVEN_STRINGS]),
-          [SeachOptions.TWELVE_STRINGS]: searchList.includes(SeachOperatorsBiased[SeachOptions.TWELVE_STRINGS]),
-        });
-      }
-    },
-    [search],
-  );
+  useEffect(() => {
+    setFormState(filterURLOptions);
+  }, [filterURLOptions]);
+
   return (
     <form className="catalog-filter" >
       <h2 className="title title--bigger catalog-filter__title">Фильтр</h2>
@@ -171,11 +134,11 @@ function CatalogFilters(): JSX.Element {
         <div className="catalog-filter__price-range">
           <div className="form-input">
             <label className="visually-hidden">Минимальная цена</label>
-            <input type="number" placeholder={ filterSettings?.minPrice.toString()} id="priceMin" name={SeachOptions.PRICE_MIN} value={ minPrice } onChange={ handlePriceChange } onBlur={ handleFormChange }/>
+            <input type="number" placeholder={ priceRangeSettings?.minPrice.toString()} id="priceMin" name={SeachOptions.PRICE_MIN} value={ minPrice } onChange={ handlePriceChange } onBlur={ handleFormChange }/>
           </div>
           <div className="form-input">
             <label className="visually-hidden">Максимальная цена</label>
-            <input type="number" placeholder={ filterSettings?.maxPrice.toString() } id="priceMax" name={SeachOptions.PRICE_MAX} value={ maxPrice } onChange={ handlePriceChange } onBlur={ handleFormChange }/>
+            <input type="number" placeholder={ priceRangeSettings?.maxPrice.toString() } id="priceMax" name={SeachOptions.PRICE_MAX} value={ maxPrice } onChange={ handlePriceChange } onBlur={ handleFormChange }/>
           </div>
         </div>
       </fieldset>

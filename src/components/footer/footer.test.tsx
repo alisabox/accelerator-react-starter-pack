@@ -24,4 +24,4 @@ describe('Component: Footer', () => {
     expect(screen.getByText('Информация')).toBeInTheDocument();
     expect(screen.getByText('Режим работы:')).toBeInTheDocument();
   });
-});  
+});

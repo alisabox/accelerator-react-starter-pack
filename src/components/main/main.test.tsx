@@ -5,8 +5,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
 import Main from './main';
 import { guitars } from '../../mocks/mocks';
-import { AppRoute } from '../../const/const';
-import * as Redux from 'react-redux';
+import { SeachOptions } from '../../const/const';
 import { createAPI } from '../../services/api';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
@@ -30,15 +29,18 @@ describe('Component: Main', () => {
       guitarsAndComments: mockData,
       guitarsPerPage: mockData.slice(0, 10),
       searchResult: [],
+      filterURLOptions: {
+        [SeachOptions.PRICE_MIN]: '',
+        [SeachOptions.PRICE_MAX]: '',
+        [SeachOptions.ACOUSTIC]: false,
+        [SeachOptions.ELECTRIC]: false,
+        [SeachOptions.UKULELE]: false,
+        [SeachOptions.FOUR_STRINGS]: false,
+        [SeachOptions.SIX_STRINGS]: false,
+        [SeachOptions.SEVEN_STRINGS]: false,
+        [SeachOptions.TWELVE_STRINGS]: false,
+      },
     });
-
-    const useDebounce = jest.fn();
-    useDebounce.mockReturnValue('CURT');
-
-
-    const dispatch = jest.fn();
-    const useDispatch = jest.spyOn(Redux, 'useDispatch');
-    useDispatch.mockReturnValue(dispatch);
 
     const fakeApp = (
       <Provider store={store}>
@@ -47,22 +49,21 @@ describe('Component: Main', () => {
         </Router>
       </Provider>
     );
-    history.push(AppRoute.ROOT);
     render(fakeApp);
 
-    expect(screen.findAllByText('Каталог')).toHaveLength(2);
-    expect(screen.findAllByText('Где купить?')).toHaveLength(2);
+    expect(screen.getAllByText('Каталог')).toHaveLength(2);
+    expect(screen.getAllByText('Где купить?')).toHaveLength(2);
     expect(screen.getByText('О компании')).toBeInTheDocument();
     expect(screen.getByText('Перейти в корзину')).toBeInTheDocument();
-    expect(screen.findAllByText('Подробнее')).toHaveLength(9);
-    expect(screen.findAllByText('Купить')).toHaveLength(9);
+    expect(screen.getAllByText('Подробнее')).toHaveLength(9);
+    expect(screen.getAllByText('Купить')).toHaveLength(9);
     expect(screen.getByText('Каталог гитар')).toBeInTheDocument();
     expect(screen.getByText('Главная')).toBeInTheDocument();
     expect(screen.getByText('Сортировать:')).toBeInTheDocument();
-    expect(screen.getByText('по цене:')).toBeInTheDocument();
-    expect(screen.getByText('по популярности:')).toBeInTheDocument();
+    expect(screen.getByText('по цене')).toBeInTheDocument();
+    expect(screen.getByText('по популярности')).toBeInTheDocument();
     expect(screen.getByText('Контакты')).toBeInTheDocument();
     expect(screen.getByText('Информация')).toBeInTheDocument();
     expect(screen.getByText('Режим работы:')).toBeInTheDocument();
   });
-});  
+});

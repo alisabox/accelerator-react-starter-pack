@@ -43,4 +43,4 @@ describe('Component: Header', () => {
     expect(screen.getByText('О компании')).toBeInTheDocument();
     expect(screen.getByText('Перейти в корзину')).toBeInTheDocument();
   });
-});  
+});

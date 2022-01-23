@@ -26,7 +26,7 @@ function Search(): JSX.Element {
         dispatch(fetchSearchResultAction(debouncedSearchName));
       }
     },
-    [debouncedSearchName],
+    [debouncedSearchName, dispatch],
   );
 
   return (

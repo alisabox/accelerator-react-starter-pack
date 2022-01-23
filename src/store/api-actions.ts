@@ -18,8 +18,8 @@ export const fetchSearchResultAction = (input: string | null): ThunkActionResult
     }
   };
 
-export const fetchGuitarsPerPage = (input: string): ThunkActionResult =>
+export const fetchGuitarsPerPage = (input: string | null): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<GuitarAndCommentsType[]>(`${APIRoute.GUITARS}?_embed=comments&${input}`);
+    const {data} = await api.get<GuitarAndCommentsType[]>(`${APIRoute.GUITARS}?_embed=comments&${input ? input : '_start=1&_limit=9'}`);
     dispatch(getGuitarsPerPage(data));
   };

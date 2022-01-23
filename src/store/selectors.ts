@@ -1,9 +1,10 @@
-import { State, GuitarAndCommentsType, GuitarType, ReselectType, FilterSettingsType } from '../types/types';
+import { State, GuitarAndCommentsType, GuitarType, ReselectType, FilterSettingsType, SeachOptionsType } from '../types/types';
 import { createSelector } from 'reselect';
 
 export const getGuitarsAndCommentsSelector = (state: State): GuitarAndCommentsType[] => state.guitarsAndComments;
 export const getGuitarsPerPageSelector = (state: State): GuitarAndCommentsType[] => state.guitarsPerPage;
 export const getSearchResultSelector = (state: State): GuitarType[] => state.searchResult;
+export const getFilterUrlOptionsSelector = (state: State): SeachOptionsType => state.filterURLOptions;
 
 export const getPriceFilterSettings = (): ReselectType<FilterSettingsType | undefined> => createSelector(getGuitarsAndCommentsSelector, (guitars) => {
   if (guitars.length) {

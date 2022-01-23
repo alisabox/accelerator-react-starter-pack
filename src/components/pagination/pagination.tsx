@@ -1,58 +1,43 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+import { NUMBER_OF_CARDS } from '../../const/const';
 import { getGuitarsAndCommentsSelector } from '../../store/selectors';
 import { GuitarAndCommentsType } from '../../types/types';
-
-const NUMBER_OF_CARDS = 9;
+import { formSearchRequest, getFilterParams } from '../../utils/utils';
 
 function Pagination(): JSX.Element {
+
+  const history = useHistory();
+  const { search } = useLocation();
+  const filterParams = getFilterParams(search);
 
   const guitars: GuitarAndCommentsType[] = useSelector(getGuitarsAndCommentsSelector);
 
   const [pages, setPages] = useState(Math.ceil(guitars.length / NUMBER_OF_CARDS));
+  const [currentPage, setCurrentPage] = useState(parseInt(getFilterParams(search).page, 10) || 1);
 
-  const [currentPage, setCurrentPage] = useState(1);
+  useEffect(() => {
+    setPages(Math.ceil(guitars.length / NUMBER_OF_CARDS));
+  }, [guitars]);
+
+  useEffect(() => {
+    setCurrentPage(parseInt(getFilterParams(search).page, 10) || 1);
+  }, [search]);
 
   const handlePaginationClick = (evt: MouseEvent<HTMLUListElement>) => {
     evt.preventDefault();
     const page = (evt.target as HTMLAnchorElement).href?.split('/').reverse()[0];
     if (page) {
-      setCurrentPage(parseInt(page, 10));
+      const searchUrlRequest = formSearchRequest([
+        filterParams.filters,
+        filterParams.sort,
+        filterParams.order,
+        `page=${page}`,
+      ]);
+      history.push(`?${searchUrlRequest}`);
     }
   };
-
-  const history = useHistory();
-  const { search } = useLocation();
-
-  useEffect(
-    () => {
-      if (currentPage > pages) {
-        setCurrentPage(1);
-      }
-
-      const pageFilter = search?.substring(1).split('&').filter((item) => item.split('=')[0] === 'page').join().split('=')[1];
-      if (pageFilter && parseInt(pageFilter, 10) !== currentPage) {
-        setCurrentPage(parseInt(pageFilter, 10));
-      }
-      return () => setCurrentPage(1);
-    },
-    [pages],
-  );
-
-  useEffect(
-    () => {
-      setPages(Math.ceil(guitars.length / NUMBER_OF_CARDS));
-      const nonPageFilters = search?.substring(1).split('&').filter((item) => item.split('=')[0] !== 'page').join('&');
-
-      if (nonPageFilters) {
-        history.push(`?${nonPageFilters}&page=${currentPage}`);
-      } else {
-        history.push(`?page=${currentPage}`);
-      }
-    },
-    [currentPage, search, guitars],
-  );
 
   return(
     <div className="pagination page-content__pagination">

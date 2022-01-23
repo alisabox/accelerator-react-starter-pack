@@ -1,4 +1,4 @@
-import { GuitarAndCommentsType, SeachOperatorsBiasedType, SortOperatorsType } from '../types/types';
+import { SeachOperatorsBiasedType, SortOperatorsType } from '../types/types';
 
 export const APIRoute = {
   GUITARS: '/guitars',
@@ -17,6 +17,7 @@ export enum ActionType {
   GetSearchResult = 'MAIN/GET_SEARCH_RESULT',
   ClearSearchResult = 'MAIN/CLEAR_SEARCH_RESULT',
   GetFilterResult = 'MAIN/GET_FILTER_RESULT',
+  GetFilterURLOptions = 'MAIN/GET_FILTER_URL_OPTIONS',
 }
 
 export enum CatalogSort {
@@ -38,16 +39,6 @@ export const CatalogSortOperators: SortOperatorsType = {
   [CatalogSortOrder.Up]: '_order=asc',
 } as const;
 
-export const sortGuitars = (guitars: GuitarAndCommentsType[], sortMode: CatalogSort, order: CatalogSortOrder): GuitarAndCommentsType[] => {
-  sortMode = sortMode === CatalogSort.None ? CatalogSort.Price : sortMode;
-  order = order === CatalogSortOrder.None ? CatalogSortOrder.Up : order;
-  const key = sortMode === CatalogSort.Price ? 'price' : 'rating';
-  if (order === CatalogSortOrder.Up) {
-    return guitars.slice().sort((a, b) => a[key] - b[key]);
-  }
-  return guitars.slice().sort((a, b) => b[key] - a[key]);
-};
-
 export const SeachOperators = {
   MinPrice: 'price_gte=',
   MaxPrice: 'price_lte=',
@@ -59,11 +50,6 @@ export const SeachOperators = {
   SevenStrings: 'stringCount=7',
   TwelveStrings: 'stringCount=12',
 } as const;
-
-export enum Price {
-  From = 'From',
-  To = 'To',
-}
 
 export enum SeachOptions {
   PRICE_MIN = 'priceMin',
@@ -88,3 +74,5 @@ export const SeachOperatorsBiased: SeachOperatorsBiasedType = {
   [SeachOptions.SEVEN_STRINGS]: SeachOperators.SevenStrings,
   [SeachOptions.TWELVE_STRINGS]: SeachOperators.TwelveStrings,
 } as const;
+
+export const NUMBER_OF_CARDS = 9;

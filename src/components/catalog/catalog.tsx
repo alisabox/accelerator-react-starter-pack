@@ -4,57 +4,60 @@ import Card from '../card/card';
 import Pagination from '../pagination/pagination';
 import { getGuitarsPerPageSelector } from '../../store/selectors';
 import { GuitarAndCommentsType } from '../../types/types';
-import { useEffect, useState } from 'react';
-import { CatalogSort, CatalogSortOperators, CatalogSortOrder } from '../../const/const';
+import { MouseEvent, useEffect, useState } from 'react';
+import { CatalogSort, CatalogSortOperators, CatalogSortOrder, NUMBER_OF_CARDS } from '../../const/const';
+import { getFilterURLOptions } from '../../store/actions';
 import { useHistory, useLocation } from 'react-router-dom';
 import { fetchGuitarsAndCommentsAction, fetchGuitarsPerPage } from '../../store/api-actions';
-
-const NUMBER_OF_CARDS = 9;
+import { formSearchRequest, getFilterParams, splitSearchUrlByOptions, transformUrlToRequest, transformUrlToRequestWithSortAndPage } from '../../utils/utils';
 
 function Catalog(): JSX.Element {
 
-  const { search } = useLocation();
   const history = useHistory();
+  const { search } = useLocation();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    history.push(search);
+    dispatch(getFilterURLOptions(splitSearchUrlByOptions(search)));
+    dispatch(fetchGuitarsAndCommentsAction(transformUrlToRequest(search)));
+    dispatch(fetchGuitarsPerPage(transformUrlToRequestWithSortAndPage(search)));
+  }, [dispatch, history, search]);
+
   const guitars: GuitarAndCommentsType[] = useSelector(getGuitarsPerPageSelector);
 
   const [catalogSort, setCatalogSort] = useState<CatalogSort>(CatalogSort.None);
   const [catalogSortOrder, setCatalogSortOrder] = useState<CatalogSortOrder>(CatalogSortOrder.None);
 
-  useEffect(() => {
-    if (catalogSort !== CatalogSort.None || catalogSortOrder !== CatalogSortOrder.None) {
-      let sort = '';
-      if (CatalogSortOperators[catalogSort] && CatalogSortOperators[catalogSortOrder]) {
-        sort = `${CatalogSortOperators[catalogSort]}&${CatalogSortOperators[catalogSortOrder]}`;
-      } else {
-        sort = CatalogSortOperators[catalogSort] || CatalogSortOperators[catalogSortOrder];
-      }
-
-      if (search) {
-        const nonPageFilters = search?.substring(1).split('&').filter((item) => item.split('=')[0] !== 'page' && item.split('=')[0] !== '_sort' && item.split('=')[0] !== '_order').join('&');
-        const pageFilter = search?.substring(1).split('&').filter((item) => item.split('=')[0] === 'page').join();
-        history.push(`?${nonPageFilters ? `${nonPageFilters}&` : ''}${sort}&${pageFilter ? `${pageFilter}` : ''}`);
-      } else {
-        history.push(`?${sort}`);
-      }
+  const handleCatalogSort = (evt: MouseEvent<HTMLButtonElement>): void => {
+    const param: string = (evt.target as HTMLButtonElement).id;
+    if (param === CatalogSort.Price || param === CatalogSort.Rating) {
+      setCatalogSort(param);
+      const filterParams = getFilterParams(search);
+      const searchRequest = formSearchRequest([
+        filterParams.filters,
+        CatalogSortOperators[param],
+        filterParams.order,
+        filterParams.page,
+      ]);
+      history.push(`?${searchRequest}`);
     }
-  }, [catalogSort, catalogSortOrder]);
+  };
 
-  useEffect(
-    () => {
-      const nonPageFilters = search?.substring(1).split('&').filter((item) => item.split('=')[0] !== 'page').join('&');
-      const currentPage = parseInt(search?.substring(1).split('&').filter((item) => item.split('=')[0] === 'page').join().split('=')[1], 10);
-      const pageFilter = `${currentPage > 1 ? `_start=${(currentPage - 1) * NUMBER_OF_CARDS + 1}&_limit=9` : '_start=1&_limit=9'}`;
-      if (nonPageFilters) {
-        dispatch(fetchGuitarsAndCommentsAction(nonPageFilters));
-        dispatch(fetchGuitarsPerPage(`${nonPageFilters}&${pageFilter}`));
-      } else {
-        dispatch(fetchGuitarsAndCommentsAction());
-        dispatch(fetchGuitarsPerPage(pageFilter));
-      }
-    },
-    [search, catalogSort],
-  );
+  const handleCatalogSortOrder = (evt: MouseEvent<HTMLButtonElement>): void => {
+    const param: string = (evt.target as HTMLButtonElement).id;
+    if (param === CatalogSortOrder.Up || param === CatalogSortOrder.Down) {
+      setCatalogSortOrder(param);
+      const filterParams = getFilterParams(search);
+      const searchRequest = formSearchRequest([
+        filterParams.filters,
+        filterParams.sort,
+        CatalogSortOperators[param],
+        filterParams.page,
+      ]);
+      history.push(`?${searchRequest}`);
+    }
+  };
 
   return (
     <main className="page-content">
@@ -77,7 +80,8 @@ function Catalog(): JSX.Element {
               <button
                 className={`catalog-sort__type-button ${catalogSort === CatalogSort.Price ? 'catalog-sort__type-button--active' : ''}`}
                 tabIndex={catalogSort === CatalogSort.Price ? -1 : undefined}
-                onClick={() => setCatalogSort(CatalogSort.Price)}
+                id={CatalogSort.Price}
+                onClick={handleCatalogSort}
                 aria-label="по цене"
               >
                 по цене
@@ -85,7 +89,8 @@ function Catalog(): JSX.Element {
               <button
                 className={`catalog-sort__type-button ${catalogSort === CatalogSort.Rating ? 'catalog-sort__type-button--active' : ''}`}
                 tabIndex={catalogSort === CatalogSort.Rating ? -1 : undefined}
-                onClick={() => setCatalogSort(CatalogSort.Rating)}
+                id={CatalogSort.Rating}
+                onClick={handleCatalogSort}
                 aria-label="по популярности"
               >
                 по популярности
@@ -95,14 +100,16 @@ function Catalog(): JSX.Element {
               <button
                 className={`catalog-sort__order-button catalog-sort__order-button--up ${catalogSortOrder === CatalogSortOrder.Up ? 'catalog-sort__order-button--active' : ''}`}
                 tabIndex={catalogSortOrder === CatalogSortOrder.Up ? -1 : undefined}
-                onClick={() => setCatalogSortOrder(CatalogSortOrder.Up)}
+                id={CatalogSortOrder.Up}
+                onClick={handleCatalogSortOrder}
                 aria-label="По возрастанию"
               >
               </button>
               <button
                 className={`catalog-sort__order-button catalog-sort__order-button--down ${catalogSortOrder === CatalogSortOrder.Down ? 'catalog-sort__order-button--active' : ''}`}
                 tabIndex={catalogSortOrder === CatalogSortOrder.Down ? -1 : undefined}
-                onClick={() => setCatalogSortOrder(CatalogSortOrder.Down)}
+                id={CatalogSortOrder.Down}
+                onClick={handleCatalogSortOrder}
                 aria-label="По убыванию"
               >
               </button>
