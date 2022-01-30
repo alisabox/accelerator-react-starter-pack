@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: Card should render correctly vs. snapshot 1`] = `
+<div>
+  <div
+    class="product-card"
+  >
+    <img
+      alt="Честер Bass"
+      height="190"
+      src="img/content/guitar-1.jpg"
+      width="75"
+    />
+    <div
+      class="product-card__info"
+    >
+      <div
+        aria-hidden="true"
+        class="rate product-card__rate"
+      >
+        <span
+          class="visually-hidden"
+        >
+          Рейтинг:
+        </span>
+        <svg
+          aria-hidden="true"
+          height="11"
+          width="12"
+        >
+          <use
+            xlink:href="#icon-full-star"
+          />
+        </svg>
+        <svg
+          aria-hidden="true"
+          height="11"
+          width="12"
+        >
+          <use
+            xlink:href="#icon-full-star"
+          />
+        </svg>
+        <svg
+          aria-hidden="true"
+          height="11"
+          width="12"
+        >
+          <use
+            xlink:href="#icon-full-star"
+          />
+        </svg>
+        <svg
+          aria-hidden="true"
+          height="11"
+          width="12"
+        >
+          <use
+            xlink:href="#icon-full-star"
+          />
+        </svg>
+        <svg
+          aria-hidden="true"
+          height="11"
+          width="12"
+        >
+          <use
+            xlink:href="#icon-star"
+          />
+        </svg>
+        <span
+          class="rate__count"
+        >
+          0
+        </span>
+        <span
+          class="rate__message"
+        />
+      </div>
+      <p
+        class="product-card__title"
+      >
+        Честер Bass
+      </p>
+      <p
+        class="product-card__price"
+      >
+        <span
+          class="visually-hidden"
+        >
+          Цена:
+        </span>
+        17500
+         ₽
+      </p>
+    </div>
+    <div
+      class="product-card__buttons"
+    >
+      <a
+        class="button button--mini"
+        href="/#"
+      >
+        Подробнее
+      </a>
+      <a
+        class="button button--red button--mini button--add-to-cart"
+        href="/#"
+      >
+        Купить
+      </a>
+    </div>
+  </div>
+</div>
+`;

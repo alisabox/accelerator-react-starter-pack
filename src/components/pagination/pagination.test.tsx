@@ -9,6 +9,7 @@ import Pagination from './pagination';
 import { guitars } from '../../mocks/mocks';
 import { createAPI } from '../../services/api';
 import { State } from '../../types/types';
+import { NameSpace } from '../../store/reducers/root-reducer';
 
 const history = createMemoryHistory();
 
@@ -25,9 +26,11 @@ describe('Component: Pagination', () => {
 
   it('should render correctly', () => {
     const store = mockStore({
-      guitarsAndComments: mockData,
-      guitarsPerPage: mockData.slice(0, 10),
-      searchResult: [],
+      [NameSpace.Guitars]: {
+        guitarsAndComments: mockData,
+        guitarsPerPage: mockData.slice(0, 10),
+        searchResult: [],
+      },
     });
 
     render (

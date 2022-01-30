@@ -39,3 +39,21 @@ export const getFilterURLOptions = createAction(
     },
   }),
 );
+
+export const getMinPrice = createAction(
+  ActionType.GetMinPrice,
+  (minPrice: number) => ({
+    payload: {
+      minPrice,
+    },
+  }),
+);
+
+export const getMaxPrice = createAction(
+  ActionType.GetMaxPrice,
+  (maxPrice: number) => ({
+    payload: {
+      maxPrice,
+    },
+  }),
+);

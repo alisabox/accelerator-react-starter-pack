@@ -1,11 +1,13 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDebounce } from '../../hooks/useDebounce';
 import { fetchSearchResultAction } from '../../store/api-actions';
-import { getSearchResultSelector } from '../../store/selectors';
+import { getSearchResultSelector } from '../../store/reducers/guitars/guitars-selectors';
 import { GuitarType } from '../../types/types';
 
 function Search(): JSX.Element {
+
+  const searchElement = useRef<HTMLDivElement>(null);
 
   const searchResult: GuitarType[] = useSelector(getSearchResultSelector);
 
@@ -29,8 +31,22 @@ function Search(): JSX.Element {
     [debouncedSearchName, dispatch],
   );
 
+
+  useEffect(() => {
+    const handleClickOutside = (evt: Event) => {
+      if (searchElement.current && !searchElement.current.contains(evt.target as Node)) {
+        setSearchedName('');
+        dispatch(fetchSearchResultAction(null));
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [dispatch, searchElement]);
+
   return (
-    <div className="form-search">
+    <div className="form-search" ref={searchElement}>
       <form className="form-search__form">
         <button className="form-search__submit" type="submit">
           <svg className="form-search__icon" width="14" height="15" aria-hidden="true">
@@ -43,6 +59,7 @@ function Search(): JSX.Element {
           type="text"
           autoComplete="off"
           placeholder="что вы ищите?"
+          value={ searchedName }
           onChange={ handleInput }
         />
         <label className="visually-hidden" htmlFor="search">Поиск</label>

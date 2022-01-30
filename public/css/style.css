@@ -1737,6 +1737,8 @@ button,
   -webkit-transition: color 0.3s ease, outline-color 0.3s ease;
           transition: color 0.3s ease, outline-color 0.3s ease;
   letter-spacing: 0.05em;
+
+  color: inherit;
 }
 
 .catalog-sort__type-button:not(:last-child) {
@@ -1797,9 +1799,7 @@ button,
 }
 
 .catalog-sort__order-button--up {
-  border-width: 0 7px 12px;
-  border-top-color: transparent;
-  border-bottom-color: #585757;
+  transform: rotate(180deg);
 }
 
 .catalog-sort__order-button--up::before {
@@ -2237,7 +2237,7 @@ button,
 
 .form-search__select-list {
   z-index: 1;
-  
+
   top: 39px;
   left: 0;
   position: absolute;
@@ -3217,4 +3217,15 @@ button,
   .page-content::after {
     background-image: url("data:image/svg+xml,%3Csvg width='1020' height='5' viewBox='0 0 1020 5' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='1020' height='5' fill='%23131212'/%3E%3C/svg%3E%0A"), url("../img/content/bg_header@2x.png");
   }
+}
+
+.not-found {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: min-content 1fr;
+}
+
+.title--not-found {
+  margin-top: 50px;
+  text-align: center;
 }

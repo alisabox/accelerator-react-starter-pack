@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CatalogFilters from '../catalog-filters/catalog-filters';
 import Card from '../card/card';
 import Pagination from '../pagination/pagination';
-import { getGuitarsPerPageSelector } from '../../store/selectors';
+import { getGuitarsPerPageSelector } from '../../store/reducers/guitars/guitars-selectors';
 import { GuitarAndCommentsType } from '../../types/types';
 import { MouseEvent, useEffect, useState } from 'react';
 import { CatalogSort, CatalogSortOperators, CatalogSortOrder, NUMBER_OF_CARDS } from '../../const/const';
@@ -15,6 +15,9 @@ function Catalog(): JSX.Element {
 
   const history = useHistory();
   const { search } = useLocation();
+  const sort = getFilterParams(search).sort.split('=')[1];
+  const order = getFilterParams(search).order.split('=')[1];
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,8 +29,8 @@ function Catalog(): JSX.Element {
 
   const guitars: GuitarAndCommentsType[] = useSelector(getGuitarsPerPageSelector);
 
-  const [catalogSort, setCatalogSort] = useState<CatalogSort>(CatalogSort.None);
-  const [catalogSortOrder, setCatalogSortOrder] = useState<CatalogSortOrder>(CatalogSortOrder.None);
+  const [catalogSort, setCatalogSort] = useState<CatalogSort | string>(sort || CatalogSort.None);
+  const [catalogSortOrder, setCatalogSortOrder] = useState<CatalogSortOrder | string>(order || CatalogSortOrder.None);
 
   const handleCatalogSort = (evt: MouseEvent<HTMLButtonElement>): void => {
     const param: string = (evt.target as HTMLButtonElement).id;
@@ -115,14 +118,12 @@ function Catalog(): JSX.Element {
               </button>
             </div>
           </div>
-          <div className="cards catalog__cards">
-
+          <div className={`${guitars.length ? 'cards' : ''} catalog__cards`}>
             {
-              guitars.length > 0
+              guitars.length
                 ? guitars.slice(0, NUMBER_OF_CARDS).map((guitar) => <Card key={ guitar.id } guitar={ guitar }/>)
                 : 'Загружаем...'
             }
-
           </div>
           <Pagination />
         </div>

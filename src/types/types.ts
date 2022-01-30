@@ -1,7 +1,7 @@
 import { Action } from 'redux';
 import { ThunkAction}  from 'redux-thunk';
 import { AxiosInstance } from 'axios';
-import { RootState } from '../store/reducer';
+import { RootState } from '../store/reducers/root-reducer';
 import { SeachOptions } from '../const/const';
 
 export type GuitarType = {
@@ -36,11 +36,16 @@ export type GuitarAndCommentsType = GuitarType & {
   comments: CommentType[],
 }
 
-export type initialStateType = {
+export type guitarsStateType = {
   guitarsAndComments: GuitarAndCommentsType[],
   guitarsPerPage: GuitarAndCommentsType[],
   searchResult: GuitarType[],
+}
+
+export type filterStateType = {
   filterURLOptions: SeachOptionsType,
+  minPrice?: number,
+  maxPrice?: number,
 }
 
 export type SeachOperatorsBiasedType = {
@@ -61,15 +66,15 @@ export type FilterParamsType = {
 }
 
 export type SeachOptionsType = {
-  [SeachOptions.PRICE_MIN]: string,
-  [SeachOptions.PRICE_MAX]: string,
-  [SeachOptions.ACOUSTIC]: boolean,
-  [SeachOptions.ELECTRIC]: boolean,
-  [SeachOptions.UKULELE]: boolean,
-  [SeachOptions.FOUR_STRINGS]: boolean,
-  [SeachOptions.SIX_STRINGS]: boolean,
-  [SeachOptions.SEVEN_STRINGS]: boolean,
-  [SeachOptions.TWELVE_STRINGS]: boolean,
+  [SeachOptions.PriceMin]: string,
+  [SeachOptions.PriceMax]: string,
+  [SeachOptions.Acoustic]: boolean,
+  [SeachOptions.Electric]: boolean,
+  [SeachOptions.Ukulele]: boolean,
+  [SeachOptions.FourStrings]: boolean,
+  [SeachOptions.SixStrings]: boolean,
+  [SeachOptions.SevenStrings]: boolean,
+  [SeachOptions.TwelveStrings]: boolean,
 }
 
 export type State = RootState;

@@ -19,7 +19,7 @@ export const getFilterParams = (search: string): FilterParamsType => {
       case param.includes('page'):
         searchParams.page = param.split('=')[1];
         searchParams.pageSearch = parseInt(param.split('=')[1], 10) > 1
-          ? `_start=${(parseInt(param.split('=')[1], 10) - 1) * NUMBER_OF_CARDS + 1}&_limit=${NUMBER_OF_CARDS}`
+          ? `_start=${(parseInt(param.split('=')[1], 10) - 1) * NUMBER_OF_CARDS}&_limit=${NUMBER_OF_CARDS}`
           : `_start=1&_limit=${NUMBER_OF_CARDS}`;
         break;
       case param.includes(CatalogSortOperators[CatalogSort.Price]):
@@ -47,18 +47,43 @@ export const getFilterParams = (search: string): FilterParamsType => {
 
 export const splitSearchUrlByOptions = (searchUrl: string): SeachOptionsType => {
   const searchList = searchUrl.substring(1).split('&');
-  const minSearchedPrice = searchList.find((item) => item.indexOf(SeachOperatorsBiased[SeachOptions.PRICE_MIN]) >= 0)?.substring(10) || '';
-  const maxSearchedPrice = searchList.find((item) => item.indexOf(SeachOperatorsBiased[SeachOptions.PRICE_MAX]) >= 0)?.substring(10) || '';
+  const minSearchedPrice = searchList.find((item) => item.indexOf(SeachOperatorsBiased[SeachOptions.PriceMin]) >= 0)?.substring(10) || '';
+  const maxSearchedPrice = searchList.find((item) => item.indexOf(SeachOperatorsBiased[SeachOptions.PriceMax]) >= 0)?.substring(10) || '';
+  const searchParams = {
+    [SeachOptions.PriceMin]: minSearchedPrice,
+    [SeachOptions.PriceMax]: maxSearchedPrice,
+    [SeachOptions.Acoustic]: searchList.includes(SeachOperatorsBiased[SeachOptions.Acoustic]),
+    [SeachOptions.Electric]: searchList.includes(SeachOperatorsBiased[SeachOptions.Electric]),
+    [SeachOptions.Ukulele]: searchList.includes(SeachOperatorsBiased[SeachOptions.Ukulele]),
+    [SeachOptions.FourStrings]: searchList.includes(SeachOperatorsBiased[SeachOptions.FourStrings]),
+    [SeachOptions.SixStrings]: searchList.includes(SeachOperatorsBiased[SeachOptions.SixStrings]),
+    [SeachOptions.SevenStrings]: searchList.includes(SeachOperatorsBiased[SeachOptions.SevenStrings]),
+    [SeachOptions.TwelveStrings]: searchList.includes(SeachOperatorsBiased[SeachOptions.TwelveStrings]),
+  };
   return {
-    [SeachOptions.PRICE_MIN]: minSearchedPrice,
-    [SeachOptions.PRICE_MAX]: maxSearchedPrice,
-    [SeachOptions.ACOUSTIC]: searchList.includes(SeachOperatorsBiased[SeachOptions.ACOUSTIC]),
-    [SeachOptions.ELECTRIC]: searchList.includes(SeachOperatorsBiased[SeachOptions.ELECTRIC]),
-    [SeachOptions.UKULELE]: searchList.includes(SeachOperatorsBiased[SeachOptions.UKULELE]),
-    [SeachOptions.FOUR_STRINGS]: searchList.includes(SeachOperatorsBiased[SeachOptions.FOUR_STRINGS]),
-    [SeachOptions.SIX_STRINGS]: searchList.includes(SeachOperatorsBiased[SeachOptions.SIX_STRINGS]),
-    [SeachOptions.SEVEN_STRINGS]: searchList.includes(SeachOperatorsBiased[SeachOptions.SEVEN_STRINGS]),
-    [SeachOptions.TWELVE_STRINGS]: searchList.includes(SeachOperatorsBiased[SeachOptions.TWELVE_STRINGS]),
+    ...searchParams,
+    [SeachOptions.FourStrings]:
+      searchParams[SeachOptions.FourStrings] &&
+      !(searchParams[SeachOptions.Acoustic] &&
+      !searchParams[SeachOptions.Electric] &&
+      !searchParams[SeachOptions.Ukulele]),
+    [SeachOptions.SixStrings]:
+      searchParams[SeachOptions.SixStrings] &&
+      !(searchParams[SeachOptions.Ukulele] &&
+      !searchParams[SeachOptions.Electric] &&
+      !searchParams[SeachOptions.Acoustic]),
+    [SeachOptions.SevenStrings]:
+      searchParams[SeachOptions.SevenStrings] &&
+      !(searchParams[SeachOptions.Ukulele] &&
+      !searchParams[SeachOptions.Electric] &&
+      !searchParams[SeachOptions.Acoustic]),
+    [SeachOptions.TwelveStrings]:
+      searchParams[SeachOptions.TwelveStrings] &&
+      !(
+        (searchParams[SeachOptions.Ukulele] ||
+        searchParams[SeachOptions.Electric]) &&
+        !searchParams[SeachOptions.Acoustic]
+      ),
   };
 };
 
@@ -67,7 +92,10 @@ export const formSearchRequest = (filters: string[]): string => filters.filter((
 export const transformUrlToRequestWithSortAndPage = (url: string): string => {
   const params = getFilterParams(url);
   params.page = params.page || '1';
-  return formSearchRequest([params.filters, params.order, params.sort, `_start=${params.page}&_limit=9`]);
+  return formSearchRequest([
+    params.filters, params.order, params.sort,
+    `_start=${(parseInt(params.page, 10) - 1) * NUMBER_OF_CARDS}&_limit=${NUMBER_OF_CARDS}`,
+  ]);
 };
 
 export const transformUrlToRequest = (url: string): string => {

@@ -10,6 +10,7 @@ import { createAPI } from '../../services/api';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { State } from '../../types/types';
+import { NameSpace } from '../../store/reducers/root-reducer';
 
 const history = createMemoryHistory();
 
@@ -26,19 +27,23 @@ describe('Component: Main', () => {
 
   it('should render correctly', () => {
     const store = mockStore({
-      guitarsAndComments: mockData,
-      guitarsPerPage: mockData.slice(0, 10),
-      searchResult: [],
-      filterURLOptions: {
-        [SeachOptions.PRICE_MIN]: '',
-        [SeachOptions.PRICE_MAX]: '',
-        [SeachOptions.ACOUSTIC]: false,
-        [SeachOptions.ELECTRIC]: false,
-        [SeachOptions.UKULELE]: false,
-        [SeachOptions.FOUR_STRINGS]: false,
-        [SeachOptions.SIX_STRINGS]: false,
-        [SeachOptions.SEVEN_STRINGS]: false,
-        [SeachOptions.TWELVE_STRINGS]: false,
+      [NameSpace.Guitars]: {
+        guitarsAndComments: mockData,
+        guitarsPerPage: mockData.slice(0, 10),
+        searchResult: [],
+      },
+      [NameSpace.Filter]: {
+        filterURLOptions: {
+          [SeachOptions.PriceMin]: '',
+          [SeachOptions.PriceMax]: '',
+          [SeachOptions.Acoustic]: false,
+          [SeachOptions.Electric]: false,
+          [SeachOptions.Ukulele]: false,
+          [SeachOptions.FourStrings]: false,
+          [SeachOptions.SixStrings]: false,
+          [SeachOptions.SevenStrings]: false,
+          [SeachOptions.TwelveStrings]: false,
+        },
       },
     });
 

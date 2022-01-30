@@ -1,0 +1,181 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: Catalog filters should render correctly vs. snapshot 1`] = `
+<div>
+  <form
+    class="catalog-filter"
+  >
+    <h2
+      class="title title--bigger catalog-filter__title"
+    >
+      Фильтр
+    </h2>
+    <fieldset
+      class="catalog-filter__block"
+    >
+      <legend
+        class="catalog-filter__block-title"
+      >
+        Цена, ₽
+      </legend>
+      <div
+        class="catalog-filter__price-range"
+      >
+        <div
+          class="form-input"
+        >
+          <label
+            class="visually-hidden"
+          >
+            Минимальная цена
+          </label>
+          <input
+            id="priceMin"
+            name="priceMin"
+            type="number"
+            value=""
+          />
+        </div>
+        <div
+          class="form-input"
+        >
+          <label
+            class="visually-hidden"
+          >
+            Максимальная цена
+          </label>
+          <input
+            id="priceMax"
+            name="priceMax"
+            type="number"
+            value=""
+          />
+        </div>
+      </div>
+    </fieldset>
+    <fieldset
+      class="catalog-filter__block"
+    >
+      <legend
+        class="catalog-filter__block-title"
+      >
+        Тип гитар
+      </legend>
+      <div
+        class="form-checkbox catalog-filter__block-item"
+      >
+        <input
+          class="visually-hidden"
+          id="acoustic"
+          name="acoustic"
+          type="checkbox"
+        />
+        <label
+          for="acoustic"
+        >
+          Акустические гитары
+        </label>
+      </div>
+      <div
+        class="form-checkbox catalog-filter__block-item"
+      >
+        <input
+          class="visually-hidden"
+          id="electric"
+          name="electric"
+          type="checkbox"
+        />
+        <label
+          for="electric"
+        >
+          Электрогитары
+        </label>
+      </div>
+      <div
+        class="form-checkbox catalog-filter__block-item"
+      >
+        <input
+          class="visually-hidden"
+          id="ukulele"
+          name="ukulele"
+          type="checkbox"
+        />
+        <label
+          for="ukulele"
+        >
+          Укулеле
+        </label>
+      </div>
+    </fieldset>
+    <fieldset
+      class="catalog-filter__block"
+    >
+      <legend
+        class="catalog-filter__block-title"
+      >
+        Количество струн
+      </legend>
+      <div
+        class="form-checkbox catalog-filter__block-item"
+      >
+        <input
+          class="visually-hidden"
+          id="4-strings"
+          name="4-strings"
+          type="checkbox"
+        />
+        <label
+          for="4-strings"
+        >
+          4
+        </label>
+      </div>
+      <div
+        class="form-checkbox catalog-filter__block-item"
+      >
+        <input
+          class="visually-hidden"
+          id="6-strings"
+          name="6-strings"
+          type="checkbox"
+        />
+        <label
+          for="6-strings"
+        >
+          6
+        </label>
+      </div>
+      <div
+        class="form-checkbox catalog-filter__block-item"
+      >
+        <input
+          class="visually-hidden"
+          id="7-strings"
+          name="7-strings"
+          type="checkbox"
+        />
+        <label
+          for="7-strings"
+        >
+          7
+        </label>
+      </div>
+      <div
+        class="form-checkbox catalog-filter__block-item"
+      >
+        <input
+          class="visually-hidden"
+          id="12-strings"
+          name="12-strings"
+          type="checkbox"
+        />
+        <label
+          for="12-strings"
+        >
+          12
+        </label>
+      </div>
+    </fieldset>
+  </form>
+</div>
+`;

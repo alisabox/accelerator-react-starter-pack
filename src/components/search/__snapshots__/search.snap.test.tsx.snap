@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: Search should render correctly vs. snapshot 1`] = `
+<div>
+  <div
+    class="form-search"
+  >
+    <form
+      class="form-search__form"
+    >
+      <button
+        class="form-search__submit"
+        type="submit"
+      >
+        <svg
+          aria-hidden="true"
+          class="form-search__icon"
+          height="15"
+          width="14"
+        >
+          <use
+            xlink:href="#icon-search"
+          />
+        </svg>
+        <span
+          class="visually-hidden"
+        >
+          Начать поиск
+        </span>
+      </button>
+      <input
+        autocomplete="off"
+        class="form-search__input"
+        id="search"
+        placeholder="что вы ищите?"
+        type="text"
+        value=""
+      />
+      <label
+        class="visually-hidden"
+        for="search"
+      >
+        Поиск
+      </label>
+    </form>
+    <ul
+      class="form-search__select-list hidden"
+    />
+  </div>
+</div>
+`;

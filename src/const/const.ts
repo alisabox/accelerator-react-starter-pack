@@ -1,14 +1,14 @@
 import { SeachOperatorsBiasedType, SortOperatorsType } from '../types/types';
 
 export const APIRoute = {
-  GUITARS: '/guitars',
-  COMMENTS: '/comments',
-  COUPONS: '/coupons',
-  ORDERS: '/orders',
+  Guitars: '/guitars',
+  Comments: '/comments',
+  Coupons: '/coupons',
+  Orders: '/orders',
 } as const;
 
 export const AppRoute = {
-  ROOT: '/',
+  Root: '/',
 } as const;
 
 export enum ActionType {
@@ -18,18 +18,20 @@ export enum ActionType {
   ClearSearchResult = 'MAIN/CLEAR_SEARCH_RESULT',
   GetFilterResult = 'MAIN/GET_FILTER_RESULT',
   GetFilterURLOptions = 'MAIN/GET_FILTER_URL_OPTIONS',
+  GetMinPrice = 'MAIN/GET_MIN_PRICE',
+  GetMaxPrice = 'MAIN/GET_MAX_PRICE',
 }
 
 export enum CatalogSort {
-  Price = 'Price',
-  Rating = 'Rating',
-  None = 'None',
+  Price = 'price',
+  Rating = 'rating',
+  None = 'none',
 }
 
 export enum CatalogSortOrder {
-  Down = 'Down',
-  Up = 'Up',
-  None = 'None',
+  Down = 'desc',
+  Up = 'asc',
+  None = 'none',
 }
 
 export const CatalogSortOperators: SortOperatorsType = {
@@ -52,27 +54,34 @@ export const SeachOperators = {
 } as const;
 
 export enum SeachOptions {
-  PRICE_MIN = 'priceMin',
-  PRICE_MAX = 'priceMax',
-  ACOUSTIC = 'acoustic',
-  ELECTRIC = 'electric',
-  UKULELE = 'ukulele',
-  FOUR_STRINGS = '4-strings',
-  SIX_STRINGS = '6-strings',
-  SEVEN_STRINGS = '7-strings',
-  TWELVE_STRINGS = '12-strings',
+  PriceMin = 'priceMin',
+  PriceMax = 'priceMax',
+  Acoustic = 'acoustic',
+  Electric = 'electric',
+  Ukulele = 'ukulele',
+  FourStrings = '4-strings',
+  SixStrings = '6-strings',
+  SevenStrings = '7-strings',
+  TwelveStrings = '12-strings',
 }
 
 export const SeachOperatorsBiased: SeachOperatorsBiasedType = {
-  [SeachOptions.PRICE_MIN]: SeachOperators.MinPrice,
-  [SeachOptions.PRICE_MAX]: SeachOperators.MaxPrice,
-  [SeachOptions.ACOUSTIC]: SeachOperators.TypeAcoustic,
-  [SeachOptions.ELECTRIC]: SeachOperators.TypeElectric,
-  [SeachOptions.UKULELE]: SeachOperators.TypeUkulele,
-  [SeachOptions.FOUR_STRINGS]: SeachOperators.FourStrings,
-  [SeachOptions.SIX_STRINGS]: SeachOperators.SixStrings,
-  [SeachOptions.SEVEN_STRINGS]: SeachOperators.SevenStrings,
-  [SeachOptions.TWELVE_STRINGS]: SeachOperators.TwelveStrings,
+  [SeachOptions.PriceMin]: SeachOperators.MinPrice,
+  [SeachOptions.PriceMax]: SeachOperators.MaxPrice,
+  [SeachOptions.Acoustic]: SeachOperators.TypeAcoustic,
+  [SeachOptions.Electric]: SeachOperators.TypeElectric,
+  [SeachOptions.Ukulele]: SeachOperators.TypeUkulele,
+  [SeachOptions.FourStrings]: SeachOperators.FourStrings,
+  [SeachOptions.SixStrings]: SeachOperators.SixStrings,
+  [SeachOptions.SevenStrings]: SeachOperators.SevenStrings,
+  [SeachOptions.TwelveStrings]: SeachOperators.TwelveStrings,
 } as const;
 
 export const NUMBER_OF_CARDS = 9;
+
+export const ERROR_MESSAGE = 'Не удалось загрузить данные каталога. Попробуйте еще раз позже';
+
+export enum EmptyCatalogMessage {
+  Loading = 'Загружаем...',
+  ConnectionError = 'Не удалось загрузить каталог. Проверьте подключение к интернету.',
+}

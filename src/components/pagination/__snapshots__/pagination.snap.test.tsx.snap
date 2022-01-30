@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: Pagination should render correctly vs. snapshot 1`] = `
+<div>
+  <div
+    class="pagination page-content__pagination"
+  >
+    <ul
+      class="pagination__list"
+    >
+      <li
+        class="pagination__page pagination__page--active"
+      >
+        <a
+          class="link pagination__page-link"
+          href="1"
+        >
+          1
+        </a>
+      </li>
+      <li
+        class="pagination__page null"
+      >
+        <a
+          class="link pagination__page-link"
+          href="2"
+        >
+          2
+        </a>
+      </li>
+      <li
+        class="pagination__page null"
+      >
+        <a
+          class="link pagination__page-link"
+          href="3"
+        >
+          3
+        </a>
+      </li>
+      <li
+        class="pagination__page pagination__page--next"
+        id="next"
+      >
+        <a
+          class="link pagination__page-link"
+          href="2"
+        >
+          Далее
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+`;

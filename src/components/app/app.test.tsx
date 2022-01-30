@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { AppRoute, SeachOptions } from '../../const/const';
 import App from './app';
+import { NameSpace } from '../../store/reducers/root-reducer';
 
 
 const history = createMemoryHistory();
@@ -21,24 +22,28 @@ describe('Application Routing', () => {
       ThunkDispatch<State, typeof api, Action>
     >(middlewares);
 
-  it('should render "Загружаем..." text when data is loading', () => {
-    const store = mockStore({
+  const store = mockStore({
+    [NameSpace.Guitars]: {
       guitarsAndComments: [],
       guitarsPerPage: [],
       searchResult: [],
+    },
+    [NameSpace.Filter]: {
       filterURLOptions: {
-        [SeachOptions.PRICE_MIN]: '',
-        [SeachOptions.PRICE_MAX]: '',
-        [SeachOptions.ACOUSTIC]: false,
-        [SeachOptions.ELECTRIC]: false,
-        [SeachOptions.UKULELE]: false,
-        [SeachOptions.FOUR_STRINGS]: false,
-        [SeachOptions.SIX_STRINGS]: false,
-        [SeachOptions.SEVEN_STRINGS]: false,
-        [SeachOptions.TWELVE_STRINGS]: false,
+        [SeachOptions.PriceMin]: '',
+        [SeachOptions.PriceMax]: '',
+        [SeachOptions.Acoustic]: false,
+        [SeachOptions.Electric]: false,
+        [SeachOptions.Ukulele]: false,
+        [SeachOptions.FourStrings]: false,
+        [SeachOptions.SixStrings]: false,
+        [SeachOptions.SevenStrings]: false,
+        [SeachOptions.TwelveStrings]: false,
       },
-    });
+    },
+  });
 
+  it('should render "Загружаем..." text when data is loading', () => {
     const fakeApp = (
       <Provider store={store}>
         <Router history={history}>
@@ -46,29 +51,13 @@ describe('Application Routing', () => {
         </Router>
       </Provider>
     );
-    history.push(AppRoute.ROOT);
+    history.push(AppRoute.Root);
     render(fakeApp);
 
     expect(screen.getByText(/Загружаем.../i)).toBeInTheDocument();
   });
 
   it('should render "Screen404" when user navigate to non-existent route', () => {
-    const store = mockStore({
-      guitarsAndComments: [],
-      guitarsPerPage: [],
-      searchResult: [],
-      filterURLOptions: {
-        [SeachOptions.PRICE_MIN]: '',
-        [SeachOptions.PRICE_MAX]: '',
-        [SeachOptions.ACOUSTIC]: false,
-        [SeachOptions.ELECTRIC]: false,
-        [SeachOptions.UKULELE]: false,
-        [SeachOptions.FOUR_STRINGS]: false,
-        [SeachOptions.SIX_STRINGS]: false,
-        [SeachOptions.SEVEN_STRINGS]: false,
-        [SeachOptions.TWELVE_STRINGS]: false,
-      },
-    });
     history.push('/non-existent-route');
     const fakeApp = (
       <Provider store={store}>

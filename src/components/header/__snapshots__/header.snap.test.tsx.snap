@@ -1,0 +1,293 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: Header should render correctly vs. snapshot 1`] = `
+<div>
+  <header
+    class="header"
+    id="header"
+  >
+    <div
+      class="container header__wrapper"
+    >
+      <a
+        class="header__logo logo"
+        href="/#"
+      >
+        <img
+          alt="Логотип"
+          class="logo__img"
+          height="70"
+          src="./img/svg/logo.svg"
+          width="70"
+        />
+      </a>
+      <nav
+        class="main-nav"
+      >
+        <ul
+          class="main-nav__list"
+        >
+          <li>
+            <a
+              class="link main-nav__link link--current"
+              href="/#"
+            >
+              Каталог
+            </a>
+          </li>
+          <li>
+            <a
+              class="link main-nav__link"
+              href="/#"
+            >
+              Где купить?
+            </a>
+          </li>
+          <li>
+            <a
+              class="link main-nav__link"
+              href="/#"
+            >
+              О компании
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div
+        class="form-search"
+      >
+        <form
+          class="form-search__form"
+        >
+          <button
+            class="form-search__submit"
+            type="submit"
+          >
+            <svg
+              aria-hidden="true"
+              class="form-search__icon"
+              height="15"
+              width="14"
+            >
+              <use
+                xlink:href="#icon-search"
+              />
+            </svg>
+            <span
+              class="visually-hidden"
+            >
+              Начать поиск
+            </span>
+          </button>
+          <input
+            autocomplete="off"
+            class="form-search__input"
+            id="search"
+            placeholder="что вы ищите?"
+            type="text"
+            value=""
+          />
+          <label
+            class="visually-hidden"
+            for="search"
+          >
+            Поиск
+          </label>
+        </form>
+        <ul
+          class="form-search__select-list "
+        >
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Честер Bass
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            CURT Z300
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Roman LX
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            CURT T300
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Dania Super
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Честер WX
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Dania VX
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Честер Plus
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Виолана 300
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            CURT Clasic
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            CURT Z250
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Честер 7X
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Честер 6V
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Виолана Mix
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Виолана 250x
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Фабио Лайт
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Фабио L100
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Liana Z200
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Liana Z100
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Liana Z300
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Roman RX
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Roman TX
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Dania U100
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Dania WR
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Dania LE
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Mirana V10
+          </li>
+          <li
+            class="form-search__select-item"
+            tabindex="0"
+          >
+            Виолана Mini
+          </li>
+        </ul>
+      </div>
+      <a
+        aria-label="Корзина"
+        class="header__cart-link"
+        href="/#"
+      >
+        <svg
+          aria-hidden="true"
+          class="header__cart-icon"
+          height="14"
+          width="14"
+        >
+          <use
+            xlink:href="#icon-basket"
+          />
+        </svg>
+        <span
+          class="visually-hidden"
+        >
+          Перейти в корзину
+        </span>
+        <span
+          class="header__cart-count"
+        >
+          2
+        </span>
+      </a>
+    </div>
+  </header>
+</div>
+`;

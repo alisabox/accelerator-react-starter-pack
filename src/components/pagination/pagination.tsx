@@ -2,7 +2,7 @@ import { MouseEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { NUMBER_OF_CARDS } from '../../const/const';
-import { getGuitarsAndCommentsSelector } from '../../store/selectors';
+import { getGuitarsAndCommentsSelector } from '../../store/reducers/guitars/guitars-selectors';
 import { GuitarAndCommentsType } from '../../types/types';
 import { formSearchRequest, getFilterParams } from '../../utils/utils';
 

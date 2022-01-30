@@ -1,0 +1,242 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component: Footer should render correctly vs. snapshot 1`] = `
+<div>
+  <footer
+    class="footer"
+  >
+    <div
+      class="footer__container container"
+    >
+      <a
+        class="footer__logo logo"
+        href="/#"
+      >
+        <img
+          alt="Логотип"
+          class="logo__img"
+          height="70"
+          src="./img/svg/logo.svg"
+          width="70"
+        />
+      </a>
+      <div
+        class="socials footer__socials"
+      >
+        <ul
+          class="socials__list"
+        >
+          <li
+            class="socials-item"
+          >
+            <a
+              aria-label="facebook"
+              class="socials__link"
+              href="https://www.facebook.com/"
+            >
+              <svg
+                aria-hidden="true"
+                class="socials__icon"
+                height="24"
+                width="24"
+              >
+                <use
+                  xlink:href="#icon-facebook"
+                />
+              </svg>
+            </a>
+          </li>
+          <li
+            class="socials-item"
+          >
+            <a
+              aria-label="instagram"
+              class="socials__link"
+              href="https://www.instagram.com/"
+            >
+              <svg
+                aria-hidden="true"
+                class="socials__icon"
+                height="24"
+                width="24"
+              >
+                <use
+                  xlink:href="#icon-instagram"
+                />
+              </svg>
+            </a>
+          </li>
+          <li
+            class="socials-item"
+          >
+            <a
+              aria-label="twitter"
+              class="socials__link"
+              href="https://www.twitter.com/"
+            >
+              <svg
+                aria-hidden="true"
+                class="socials__icon"
+                height="24"
+                width="24"
+              >
+                <use
+                  xlink:href="#icon-twitter"
+                />
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <section
+        class="footer__nav-section footer__nav-section--info"
+      >
+        <h2
+          class="footer__nav-title"
+        >
+          О нас
+        </h2>
+        <p
+          class="footer__nav-content footer__nav-content--font-secondary"
+        >
+          Магазин гитар, музыкальных инструментов и гитарная мастерская 
+          <br />
+           в Санкт-Петербурге.
+          <br />
+          <br />
+          Все инструменты проверены, отстроены 
+          <br />
+           и доведены до идеала!
+        </p>
+      </section>
+      <section
+        class="footer__nav-section footer__nav-section--links"
+      >
+        <h2
+          class="footer__nav-title"
+        >
+          Информация
+        </h2>
+        <ul
+          class="footer__nav-list"
+        >
+          <li
+            class="footer__nav-list-item"
+          >
+            <a
+              class="link"
+              href="#top"
+            >
+              Где купить?
+            </a>
+          </li>
+          <li
+            class="footer__nav-list-item"
+          >
+            <a
+              class="link"
+              href="#top"
+            >
+              Блог
+            </a>
+          </li>
+          <li
+            class="footer__nav-list-item"
+          >
+            <a
+              class="link"
+              href="#top"
+            >
+              Вопрос - ответ
+            </a>
+          </li>
+          <li
+            class="footer__nav-list-item"
+          >
+            <a
+              class="link"
+              href="#top"
+            >
+              Возврат
+            </a>
+          </li>
+          <li
+            class="footer__nav-list-item"
+          >
+            <a
+              class="link"
+              href="#top"
+            >
+              Сервис-центры
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section
+        class="footer__nav-section footer__nav-section--contacts"
+      >
+        <h2
+          class="footer__nav-title"
+        >
+          Контакты
+        </h2>
+        <p
+          class="footer__nav-content"
+        >
+          г. Санкт-Петербург,
+          <br />
+           м. Невский проспект, 
+          <br />
+          ул. Казанская 6.
+        </p>
+        <div
+          class="footer__nav-content"
+        >
+          <svg
+            aria-hidden="true"
+            class="footer__icon"
+            height="8"
+            width="8"
+          >
+            <use
+              xlink:href="#icon-phone"
+            />
+          </svg>
+          <a
+            class="link"
+            href="tel:88125005050"
+          >
+             8-812-500-50-50
+          </a>
+        </div>
+        <p
+          class="footer__nav-content"
+        >
+          Режим работы:
+          <br />
+          <span
+            class="footer__span"
+          >
+            <svg
+              aria-hidden="true"
+              class="footer__icon"
+              height="13"
+              width="13"
+            >
+              <use
+                xlink:href="#icon-clock"
+              />
+            </svg>
+            <span>
+               с 11:00 до 20:00
+            </span>
+            <span>
+              без выходных
+            </span>
+          </span>
+        </p>
+      </section>
+    </div>
+  </footer>
+</div>
+`;

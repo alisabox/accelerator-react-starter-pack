@@ -3,10 +3,10 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createAPI } from '../services/api';
-import { fetchGuitarsAndCommentsAction, fetchSearchResultAction, fetchGuitarsPerPage } from './api-actions';
+import { fetchGuitarsAndCommentsAction, fetchSearchResultAction, fetchGuitarsPerPage, fetchPrice } from './api-actions';
 import { APIRoute } from '../const/const';
 import { State } from '../types/types';
-import { getGuitarsAndComments, getSearchResult, clearSearchResult, getGuitarsPerPage } from './actions';
+import { getGuitarsAndComments, getSearchResult, clearSearchResult, getGuitarsPerPage, getMinPrice, getMaxPrice } from './actions';
 import { guitars } from '../mocks/mocks';
 
 describe('API actions', () => {
@@ -24,7 +24,7 @@ describe('API actions', () => {
     const input = null;
     const mockData = guitars;
     mockAPI
-      .onGet(`${APIRoute.GUITARS}?_embed=comments${input ? `&${input}` : ''}`)
+      .onGet(`${APIRoute.Guitars}?_embed=comments${input ? `&${input}` : ''}`)
       .reply(200, mockData);
 
     const store = mockStore();
@@ -39,7 +39,7 @@ describe('API actions', () => {
     const input = 'curt';
     const filteredMockData = guitars.filter((guitar) => guitar.name.includes(input));
     mockAPI
-      .onGet(`${APIRoute.GUITARS}?name_like=${input}`)
+      .onGet(`${APIRoute.Guitars}?name_like=${input}`)
       .reply(200, filteredMockData);
 
     const store = mockStore();
@@ -53,7 +53,7 @@ describe('API actions', () => {
   it('should clear search on empty fetchSearchResultAction', async () => {
     const input = null;
     mockAPI
-      .onGet(`${APIRoute.GUITARS}?name_like=${input}`)
+      .onGet(`${APIRoute.Guitars}?name_like=${input}`)
       .reply(200);
 
     const store = mockStore();
@@ -66,9 +66,9 @@ describe('API actions', () => {
 
   it('should fetch first 9 guitars on load', async () => {
     const mockData = guitars.slice(0, 10);
-    const input = '_start=1&_limit=9';
+    const input = '_start=0&_limit=9';
     mockAPI
-      .onGet(`${APIRoute.GUITARS}?_embed=comments&${input}`)
+      .onGet(`${APIRoute.Guitars}?_embed=comments&${input}`)
       .reply(200, mockData);
 
     const store = mockStore();
@@ -76,6 +76,22 @@ describe('API actions', () => {
 
     expect(store.getActions()).toEqual([
       getGuitarsPerPage(mockData),
+    ]);
+  });
+
+  it('should fetch price range', async () => {
+    const mockData = guitars.sort((a, b) => a.price - b.price);
+
+    mockAPI
+      .onGet(`${APIRoute.Guitars}?_sort=price`)
+      .reply(200, mockData);
+
+    const store = mockStore();
+    await store.dispatch(fetchPrice());
+
+    expect(store.getActions()).toEqual([
+      getMinPrice(mockData[0].price),
+      getMaxPrice(mockData[mockData.length - 1].price),
     ]);
   });
 });

@@ -10,6 +10,7 @@ import { guitars } from '../../mocks/mocks';
 import { createAPI } from '../../services/api';
 import { State } from '../../types/types';
 import { SeachOptions } from '../../const/const';
+import { NameSpace } from '../../store/reducers/root-reducer';
 
 const history = createMemoryHistory();
 
@@ -25,24 +26,31 @@ describe('Component: CatalogFilters', () => {
     >(middlewares);
 
   it('should render correctly', () => {
+    const guitarsSortedByPrice = mockData.slice().sort((a, b) => a.price - b.price);
+
     const store = mockStore({
-      guitarsAndComments: mockData,
-      guitarsPerPage: mockData.slice(0, 10),
-      searchResult: [],
-      filterURLOptions: {
-        [SeachOptions.PRICE_MIN]: '',
-        [SeachOptions.PRICE_MAX]: '',
-        [SeachOptions.ACOUSTIC]: false,
-        [SeachOptions.ELECTRIC]: false,
-        [SeachOptions.UKULELE]: false,
-        [SeachOptions.FOUR_STRINGS]: false,
-        [SeachOptions.SIX_STRINGS]: false,
-        [SeachOptions.SEVEN_STRINGS]: false,
-        [SeachOptions.TWELVE_STRINGS]: false,
+      [NameSpace.Guitars]: {
+        guitarsAndComments: mockData,
+        guitarsPerPage: mockData.slice(0, 10),
+        searchResult: [],
+      },
+      [NameSpace.Filter]: {
+        filterURLOptions: {
+          [SeachOptions.PriceMin]: '',
+          [SeachOptions.PriceMax]: '',
+          [SeachOptions.Acoustic]: false,
+          [SeachOptions.Electric]: false,
+          [SeachOptions.Ukulele]: false,
+          [SeachOptions.FourStrings]: false,
+          [SeachOptions.SixStrings]: false,
+          [SeachOptions.SevenStrings]: false,
+          [SeachOptions.TwelveStrings]: false,
+        },
+        minPrice: guitarsSortedByPrice[0].price,
+        maxPrice: guitarsSortedByPrice.reverse()[0].price,
       },
     });
 
-    const guitarsSortedByPrice = mockData.slice().sort((a, b) => a.price - b.price);
     render (
       <Provider store={store}>
         <Router history={history}>

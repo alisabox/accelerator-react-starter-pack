@@ -9,6 +9,7 @@ import Search from './search';
 import { guitars } from '../../mocks/mocks';
 import { createAPI } from '../../services/api';
 import { State } from '../../types/types';
+import { NameSpace } from '../../store/reducers/root-reducer';
 
 const mockData = guitars;
 
@@ -25,9 +26,11 @@ describe('Component: Search', () => {
 
   it('should render correctly', () => {
     const store = mockStore({
-      guitarsAndComments: [],
-      guitarsPerPage: [],
-      searchResult: mockData,
+      [NameSpace.Guitars]: {
+        guitarsAndComments: [],
+        guitarsPerPage: [],
+        searchResult: mockData,
+      },
     });
 
     render (
